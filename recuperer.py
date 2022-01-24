@@ -30,7 +30,26 @@ class API():
 		if self.loglevel >= 1:
 			self.log(f"########## End downloading, {error} error(s) ##########\n")
 	
-	def processXML(self, champs):
+	def processXMLtag(self, champs):
+		self.endpointsParse = {}
+		for code, contenu in self.endpointsData.items():
+			if self.loglevel >= 2:
+				self.log(f"Converting {code}...")
+			contenu = etree.fromstring(contenu)	
+			
+			if self.loglevel >= 2:
+				self.log(f"Processing {code}...")
+			self.endpointsParse[code] = {}
+			
+			for champ in champs:
+				for i in contenu:
+					if i.tag == champ:
+						self.endpointsParse[code][champ] = i.text
+		
+		if self.loglevel >= 1:
+			self.log(f"End processing\n")
+	
+	def processXMLid(self, champs):
 		self.endpointsParse = {}
 		for code, contenu in self.endpointsData.items():
 			if self.loglevel >= 2:
@@ -105,31 +124,26 @@ class CSV():
 		self.name = name
 		self.data = {}
 		for code in self.name:
-			with open("", "r") as f:
+			with open(f"{code}.csv", "r") as f:
 				self.data[code] = f.read()
 				f.close()
-			
+	
+	def getAll(self):
+		self.dataparsed = {}
+		for code in self.name:	
 			self.data[code] = self.data[code].split("\n")
 			for index, val in enumerate(self.data[code]):
-				self.data[code][index] = val.split("\n")
-			self.data[code] = self.data[code][1:-1]
-	
-	def getAll(fields):
-		self.dataparsed = {}
-		for code in self.name:
+				self.data[code][index] = val.split(";")
+			
 			self.dataparsed[code] = {}
-			for index in fields:
-				self
+			for index, field in enumerate(self.data[code][0]):
+				self.dataparsed[code][field] =  []
+				for line in range(1, len(self.data[code])-1):
+					self.dataparsed[code][field].append(self.data[code][line][index])
+		
+	def returnData(self):
+		return self.dataparsed
 
 if __name__ == "__main__":
-	url = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
-	url_list = ["FR_MTP_ANTI", "FR_MTP_COME", "FR_MTP_CORU", "FR_MTP_EURO", "FR_MTP_FOCH", "FR_MTP_GAMB", "FR_MTP_GARE", "FR_MTP_TRIA", "FR_MTP_ARCT", "FR_MTP_PITO", "FR_MTP_CIRC", "FR_MTP_SABI", "FR_MTP_GARC", "FR_MTP_SABL", "FR_MTP_MOSS", "FR_STJ_SJLC", "FR_MTP_MEDC", "FR_MTP_OCCI", "FR_CAS_VICA", "FR_MTP_GA109", "FR_MTP_GA250", "FR_CAS_CDGA", "FR_MTP_ARCE", 'FR_MTP_POLY']
-	champs = ["DateTime", "Name", "Status", "Free", "Total"]
-	park = API(url)
-	
-	def test():	
-		park.downloadEndpoints(url_list)
-		park.processXML(champs)
-		park.saveCSV()
-
-	park.runFor(1, 0.5, test)
+	endpoints = {'FR_MTP_ANTI': 'Antigone', 'FR_MTP_COME': 'Comédie', 'FR_MTP_CORU': 'Corum', 'FR_MTP_EURO': 'Europa', 'FR_MTP_FOCH': 'Foch', 'FR_MTP_GAMB':     'Gambetta', 'FR_MTP_GARE': 'Gare', 'FR_MTP_TRIA': 'Triangle', 'FR_MTP_ARCT': 'Arc de Triomphe', 'FR_MTP_PITO': 'Pitot', 'FR_MTP_CIRC': 'Circe', 'FR_MTP_S    ABI': 'Sabines', 'FR_MTP_GARC': 'Garcia Lorca', 'FR_MTP_SABL': 'Sablassou', 'FR_MTP_MOSS': 'Mosson', 'FR_STJ_SJLC': 'Saint Jean le Sec', 'FR_MTP_MEDC': '    Euromédecine', 'FR_MTP_OCCI': 'Occitanie', 'FR_CAS_VICA': 'Vicarello', 'FR_MTP_GA109': 'Gaumont EST', 'FR_MTP_GA250': 'Gaumont OUEST', 'FR_CAS_CDGA': 'Ch    arles de Gaulle', 'FR_MTP_ARCE': 'Arceaux', 'FR_MTP_POLY': 'Polygone'}
+	champs = {"DateTime": "Heure d'actualisation", "Name": "Nom du parking", "Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
