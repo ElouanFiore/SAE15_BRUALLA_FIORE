@@ -1,102 +1,127 @@
 # Elouan FIORE
-# Version 0.5
+# Version 1
 
+from re import T
 from lxml import etree
 import requests
 import time
 
 class API():
-	def __init__(self, url, log=1):
+	def __init__(self, url, where="tag", log=1):
 		self.url = url
 		self.loglevel = log
+		self.where = where
 	
 	def downloadEndpoints(self, endpoints):
 		error = 0
-		self.endpointsData = {}
-		for code in endpoints:
-			if self.loglevel >= 2:
-				self.log(f"Downloading {code}...")
+		if self.where == "id":
+			self.endpoints = endpoints
+			self.log(2, f"Downloading {self.url}...")
 			
-			reponse = requests.get(self.url.format(code))
+			reponse = requests.get(self.url)
 			status = reponse.status_code
-
 			if status == 200:
-				self.endpointsData[code] = reponse.content
+				self.endpointsData = reponse.content
 			else:
 				error += 1
-				if self.loglevel >=2:
-					self.log(f"Error {status}")
+				self.log(0, f"Error {status}")
+
+		elif self.where == "tag":
+			self.endpointsData = {}
+
+			for code in endpoints:
+				self.log(2, f"Downloading {code}...")
+
+				reponse = requests.get(self.url.format(code))
+				status = reponse.status_code
+
+				if status == 200:
+					self.endpointsData[code] = reponse.content
+				else:
+					error += 1
+					self.log(0, f"Error {status}")
 		
-		if self.loglevel >= 1:
-			self.log(f"########## End downloading, {error} error(s) ##########\n")
+		self.log(1, f"########## End downloading, {error} error(s) ##########\n")
 	
-	def processXMLtag(self, champs):
-		self.endpointsParse = {}
-		for code, contenu in self.endpointsData.items():
-			if self.loglevel >= 2:
-				self.log(f"Converting {code}...")
-			contenu = etree.fromstring(contenu)	
-			
-			if self.loglevel >= 2:
-				self.log(f"Processing {code}...")
-			self.endpointsParse[code] = {}
-			
-			for champ in champs:
-				for i in contenu:
-					if i.tag == champ:
-						self.endpointsParse[code][champ] = i.text
-		
-		if self.loglevel >= 1:
-			self.log(f"End processing\n")
+
+	def processXML(self, field, timecap=0):
+		if self.where == "tag":
+			self.endpointsParse = {}
+			for code, contenu in self.endpointsData.items():
+				self.log(2, f"Converting {code}...")
+				contenu = etree.fromstring(contenu)	
+
+				self.log(2, f"Processing {code}...")
+				self.endpointsParse[code] = {}
+
+				if timecap == 0:
+					now = time.localtime(time.time())
+					timecap = time.strftime("%d/%m/%Y-%H:%M", now)
+				self.endpointsParse[code]["CapTime"] = timecap
+
+				for f in field:
+					for i in contenu:
+						if i.tag == f:
+							self.endpointsParse[code][f] = i.text
+
+			self.log(1, f"########## End processing ##########\n")
 	
-	def processXMLid(self, champs):
-		self.endpointsParse = {}
-		for code, contenu in self.endpointsData.items():
-			if self.loglevel >= 2:
-				self.log(f"Converting {code}...")
-			contenu = etree.fromstring(contenu)	
+		elif self.where == "id":
+			self.endpointsParse = {}
+			self.log(2, f"Converting {self.url}...")
+			contenu = etree.fromstring(self.endpointsData)
 			
-			if self.loglevel >= 2:
-				self.log(f"Processing {code}...")
-			self.endpointsParse[code] = {}
-			
-			for champ in champs:
-				for i in contenu:
-					if i.tag == champ:
-						self.endpointsParse[code][champ] = i.text
-		
-		if self.loglevel >= 1:
-			self.log(f"End processing\n")
-	
-	def saveCSV(self, chemin="."):
+			#pass the first element which is a <sl> tag empty
+			contenu = list(contenu)[0]
+
+
+			for code in self.endpoints:
+				self.log(2, f"Processing {code}...")
+				self.endpointsParse[code] = {}
+
+				if timecap == 0:
+					now = time.localtime(time.time())
+					timecap = time.strftime("%d/%m/%Y-%H:%M", now)
+				self.endpointsParse[code]["CapTime"] = timecap
+
+				for element in contenu:
+					attr = element.attrib
+					if attr["id"] == code:
+						for f in field:
+							self.endpointsParse[code][f] = attr[f]
+						
+
+			self.log(1, f"########## End processing ##########\n")
+
+	def saveCSV(self, path="."):
 		for code, contenu in self.endpointsParse.items():
-			if self.loglevel >= 2:
-				sel.loglevel(f"Sauving {code}...")
+			self.log(2, f"Saving {code}...")
 			
 			line = ""
-			for champs, data in contenu.items():
+			
+			for data in contenu.values():
 				line += f"{data};"
 			
 			try:
-				fichier = open(f"{chemin}/{code}.csv", "r")
+				fichier = open(f"{path}/{code}.csv", "r")
 				fichier.close()
 			except FileNotFoundError:
 				header = ";".join(contenu.keys())
-				with open(f"{chemin}/{code}.csv", "w") as fichier:
+				with open(f"{path}/{code}.csv", "w") as fichier:
 					fichier.write(f"{header}\n{line}\n")
 					fichier.close()
 			else:
-				with  open(f"{chemin}/{code}.csv", "a") as fichier:
+				with  open(f"{path}/{code}.csv", "a") as fichier:
 					fichier.write(f"{line}\n")
 					fichier.close()
-		if self.loglevel >= 1:
-			self.log("End saving\n")
+		
+		self.log(1, "########## End saving ##########\n")
 	
 	def print(self):
 		for code, contenu in self.endpointsParse.items():
 			print(f"\n{code}")
-			for champ, data in contenu.items():
-				print(f"	{champ} : {data}")
+			for field, data in contenu.items():
+				print(f"	{field} : {data}")
 
 	def runFor(self, lenght, sleep, function):
 		endTime = int(time.time()) + lenght*60
@@ -108,42 +133,94 @@ class API():
 			function()
 			execTime = int(time.time()) - execTime
 			execute += 1
+			self.log(1, f"########## Sleeping for {sleep/60} min ##########\n")
 			time.sleep(sleep - execTime)
 		
-		if self.loglevel >= 1:
-			self.log(f"Exécuté {execute} fois")
+		self.log(1, f"Executed {execute} time(s)")
 	
-	def log(self, message):
-		print(message)
-		with open("recup.log", "a") as f:
-			f.write(message)
-			f.close()
+	def log(self, level, message):
+		if self.loglevel >= level:
+			print(message)
+			with open("recup.log", "a") as f:
+				f.write(f"\n{message}")
+				f.close()
 
 class CSV():
 	def __init__(self, name, path="."):
 		self.name = name
 		self.data = {}
+		self.dataparsed = {}
+	
 		for code in self.name:
-			with open(f"{code}.csv", "r") as f:
+			with open(f"{path}/{code}.csv", "r") as f:
 				self.data[code] = f.read()
 				f.close()
 	
-	def getAll(self):
-		self.dataparsed = {}
-		for code in self.name:	
+	def getOne(self, code):
+		if code in self.dataparsed.keys():
+			return self.dataparsed[code]
+		
+		else:
+			parsed = {}
+			
 			self.data[code] = self.data[code].split("\n")
 			for index, val in enumerate(self.data[code]):
 				self.data[code][index] = val.split(";")
 			
-			self.dataparsed[code] = {}
 			for index, field in enumerate(self.data[code][0]):
-				self.dataparsed[code][field] =  []
+				parsed[field] = []	
+				
 				for line in range(1, len(self.data[code])-1):
-					self.dataparsed[code][field].append(self.data[code][line][index])
+					parsed[field].append(self.data[code][line][index])
+
+			self.dataparsed[code] = parsed
+			return parsed
+	
+	def getFromList(self, list):
+		listparsed = {}
 		
-	def returnData(self):
-		return self.dataparsed
+		for code in list:
+			if code in self.dataparsed.keys():
+				listparsed[code] = self.dataparsed[code]
+			
+			else:
+				listparsed[code] = {}
+				
+				self.data[code] = self.data[code].split("\n")
+				for index, val in enumerate(self.data[code]):
+					self.data[code][index] = val.split(";")
+
+				for index, field in enumerate(self.data[code][0]):
+					listparsed[code][field] =  []
+					
+					for line in range(1, len(self.data[code])-1):
+						listparsed[code][field].append(self.data[code][line][index])
+
+				self.dataparsed[code] = listparsed[code]
+
+		return listparsed
 
 if __name__ == "__main__":
-	endpoints = {'FR_MTP_ANTI': 'Antigone', 'FR_MTP_COME': 'Comédie', 'FR_MTP_CORU': 'Corum', 'FR_MTP_EURO': 'Europa', 'FR_MTP_FOCH': 'Foch', 'FR_MTP_GAMB':     'Gambetta', 'FR_MTP_GARE': 'Gare', 'FR_MTP_TRIA': 'Triangle', 'FR_MTP_ARCT': 'Arc de Triomphe', 'FR_MTP_PITO': 'Pitot', 'FR_MTP_CIRC': 'Circe', 'FR_MTP_S    ABI': 'Sabines', 'FR_MTP_GARC': 'Garcia Lorca', 'FR_MTP_SABL': 'Sablassou', 'FR_MTP_MOSS': 'Mosson', 'FR_STJ_SJLC': 'Saint Jean le Sec', 'FR_MTP_MEDC': '    Euromédecine', 'FR_MTP_OCCI': 'Occitanie', 'FR_CAS_VICA': 'Vicarello', 'FR_MTP_GA109': 'Gaumont EST', 'FR_MTP_GA250': 'Gaumont OUEST', 'FR_CAS_CDGA': 'Ch    arles de Gaulle', 'FR_MTP_ARCE': 'Arceaux', 'FR_MTP_POLY': 'Polygone'}
-	champs = {"DateTime": "Heure d'actualisation", "Name": "Nom du parking", "Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
+	urlvoi = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
+	endpointsvoi = {'FR_MTP_ANTI': 'Antigone', 'FR_MTP_COME': 'Comédie', 'FR_MTP_CORU': 'Corum', 'FR_MTP_EURO': 'Europa', 'FR_MTP_FOCH': 'Foch', 'FR_MTP_GAMB': 'Gambetta', 'FR_MTP_GARE': 'Gare', 'FR_MTP_TRIA': 'Triangle', 'FR_MTP_ARCT': 'Arc de Triomphe', 'FR_MTP_PITO': 'Pitot', 'FR_MTP_CIRC': 'Circe', 'FR_MTP_SABI': 'Sabines', 'FR_MTP_GARC': 'Garcia Lorca', 'FR_MTP_SABL': 'Sablassou', 'FR_MTP_MOSS': 'Mosson', 'FR_STJ_SJLC': 'Saint Jean le Sec', 'FR_MTP_MEDC': '    Euromédecine', 'FR_MTP_OCCI': 'Occitanie', 'FR_CAS_VICA': 'Vicarello', 'FR_MTP_GA109': 'Gaumont EST', 'FR_MTP_GA250': 'Gaumont OUEST', 'FR_CAS_CDGA': 'Charles de Gaulle', 'FR_MTP_ARCE': 'Arceaux', 'FR_MTP_POLY': 'Polygone'}
+	champsvoi = {"DateTime": "Heure d'actualisation", "Name": "Nom du parking", "Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
+	voiture = API(urlvoi, log=2)
+	
+	urlve = "https://data.montpellier3m.fr/sites/default/files/ressources/TAM_MMM_VELOMAG.xml"
+	endpointsve = {"003": "Esplanade", "005": "Corum"}
+	champsve = {"av": "Places occupées", "fr": "Places libres", "to": "Places totales"}
+	velo = API(urlve, where="id", log=2)
+
+	def recup():
+		temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
+		voiture.downloadEndpoints(endpointsvoi.keys())
+		voiture.processXML(champsvoi.keys(), timecap=temps)
+		voiture.saveCSV(path="./databrutes")
+		velo.downloadEndpoints(endpointsve.keys())
+		velo.processXML(champsve.keys(), timecap=temps)
+		velo.saveCSV(path="./databrutes")
+
+	recup()
+
+	revoiture = CSV(endpointsve.keys(), path="./databrutes")
+	print(revoiture.getFromList(endpointsve.keys()))

@@ -1,19 +1,25 @@
-from recuperer import API, CSV
+from recuperer import API
+import time
 
-urlvelo = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
-endpoints = {'FR_MTP_ANTI': 'Antigone', 'FR_MTP_COME': 'Comédie', 'FR_MTP_CORU': 'Corum', 'FR_MTP_EURO': 'Europa', 'FR_MTP_FOCH': 'Foch', 'FR_MTP_GAMB': 'Gambetta', 'FR_MTP_GARE': 'Gare', 'FR_MTP_TRIA': 'Triangle', 'FR_MTP_ARCT': 'Arc de Triomphe', 'FR_MTP_PITO': 'Pitot', 'FR_MTP_CIRC': 'Circe', 'FR_MTP_SABI': 'Sabines', 'FR_MTP_GARC': 'Garcia Lorca', 'FR_MTP_SABL': 'Sablassou', 'FR_MTP_MOSS': 'Mosson', 'FR_STJ_SJLC': 'Saint Jean le Sec', 'FR_MTP_MEDC': 'Euromédecine', 'FR_MTP_OCCI': 'Occitanie', 'FR_CAS_VICA': 'Vicarello', 'FR_MTP_GA109': 'Gaumont EST', 'FR_MTP_GA250': 'Gaumont OUEST', 'FR_CAS_CDGA': 'Charles de Gaulle', 'FR_MTP_ARCE': 'Arceaux', 'FR_MTP_POLY': 'Polygone'}
-champs = {"Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
-"""
-voiture = API(url, 2)
+url_voiture = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
+endpoints_voiture = {'FR_MTP_CORU': 'Corum'}
+champs_voiture = {"Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
+voiture = API(url_voiture, log=2)
+
+url_velo = "https://data.montpellier3m.fr/sites/default/files/ressources/TAM_MMM_VELOMAG.xml"
+endpoints_velo = {"003": "Esplanade", "005": "Corum"}
+champs_velo = {"av": "Places occupées", "fr": "Places libres", "to": "Places totales"}
+velo = API(url_velo, where="id", log=2)
 
 def recup():
-	voiture.downloadEndpoints(endpoints.keys())
-	voiture.processXML(champs.keys())
-	voiture.saveCSV()
-	voiture.print()
+	temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
+	
+	voiture.downloadEndpoints(endpoints_voiture.keys())
+	voiture.processXML(champs_voiture.keys(), timecap=temps)
+	voiture.saveCSV(path="./databrutes")
+	
+	velo.downloadEndpoints(endpoints_velo.keys())
+	velo.processXML(champs_velo.keys(), timecap=temps)
+	velo.saveCSV(path="./databrutes")
 
-recup()
-"""
-
-parkings = CSV(endpoints.keys())
-parkings.getAll()
+velo.runFor(10, 2, recup)
