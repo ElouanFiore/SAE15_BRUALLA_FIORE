@@ -12,7 +12,7 @@ endpoints_velo = {"003": "Esplanade", "005": "Corum"}
 champs_velo = {"av": "Places occupées", "fr": "Places libres", "to": "Places totales"}
 velo = API(url_velo, where="id", log=2)
 
-if input("Voulez-vous lancez une récupération ? [Y = oui ]").lower() == "y":
+if input("Voulez-vous lancez une récupération ? [Y = oui ] ").lower() == "y":
 
 	def recup():
 		temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
@@ -28,11 +28,34 @@ if input("Voulez-vous lancez une récupération ? [Y = oui ]").lower() == "y":
 	velo.runFor(1440, 5, recup)
 
 
-revelo  = CSV(endpoints_velo.keys(), path="./databrutes")
-revoiture = CSV(endpoints_voiture.keys(), path="./databrutes")
-data_velo = revelo.getFromList(endpoints_velo.keys())
-data_voiture =revoiture.getOne(list(endpoints_voiture.keys())[0])
+recupvelo  = CSV(endpoints_velo.keys(), path="./databrutes")
+data_velo = recupvelo.getFromList(endpoints_velo.keys())
 
-print("Moyenne voiture tqt", stat.moyenne(data_voiture["Free"]))
-print("Moyenne velo 005 tqt", stat.moyenne(data_velo["005"]["fr"]))
-print("Ecart type voiture tqt", stat.ecart_type(data_voiture["Free"]))
+for i in endpoints.velo.keys[]:
+	total =  data_velo[i]["to"]
+	moyenne = stat.moyenne(data_velo[i]["av"])
+	sigma = stat.ecart_type(data_velo[i]["av"])
+	pourcent = stat.pourcentage(moyenne, total)
+	
+	with open("compte_rendu.txt", "a") as f:
+		f.writeline(f"[{endpoints_velo[i]}]")
+		f.writeline(f"	Nombres de vélos disponible maximum: {total}")
+		f.writeline(f"	Moyenne du nombres de vélos disponibles : {moyenne}")
+		f.writeline(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}")
+		f.writeline(f"	Ecart type à la moyenne : {sigma}")
+
+recupvoiture = CSV(endpoints_voiture.keys(), path="./databrutes")
+code_park = list(endpoints_voiture.keys())[0]
+data_corum = recupvoiture.getOne(code_park)
+
+total =  data_corum["Total"]
+moyenne = stat.moyenne(data_corum[i]["Free"])
+sigma = stat.ecart_type(data_corum[i]["Free"])
+pourcent = stat.pourcentage(moyenne, total)
+
+with open("compte_rendu.txt", "a") as f:
+	f.writeline(f"[{endpoints_voiture[code_park]}]")
+	f.writeline(f"	Nombres de vélos disponible maximum: {total}")
+	f.writeline(f"	Moyenne du nombres de vélos disponibles : {moyenne}")
+	f.writeline(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}")
+	f.writeline(f"	Ecart type à la moyenne : {sigma}")
