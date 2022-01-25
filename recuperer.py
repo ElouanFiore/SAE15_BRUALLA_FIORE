@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 #:!/usr/bin/python3
-# Elouan FIORE
-=======
 # Elouan FIORE Léo BRUALLA
->>>>>>> 6ca9708d58fc09a127754b581278b21335c6a815
 # Version 1
 
 
