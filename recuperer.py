@@ -1,7 +1,7 @@
-# Elouan FIORE
+# Elouan FIORE Léo BRUALLA
 # Version 1
 
-from re import T
+
 from lxml import etree
 import requests
 import time
