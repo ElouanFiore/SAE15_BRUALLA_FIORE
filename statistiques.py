@@ -6,7 +6,7 @@ def moyenne(L):
 	for x in L:
 		moy += int(x)
 	moy=moy/len(L)
-	return moy
+	return round(moy,2)
 
 def ecart_type(L):
 	moy=moyenne(L)
