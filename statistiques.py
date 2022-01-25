@@ -16,8 +16,8 @@ def moyenne(L):
 def ecart_type(L):
 	moy=moyenne(L)
 	ecart=0
-	for x in range(len(L)):
-		ecart+=(L[x]-moy)**2
+	for x in L:
+		ecart+=(int(x)-moy)**2
 	ecart=sqrt(ecart/len(L))
 	return round(ecart,2)
 
@@ -28,10 +28,10 @@ def covar(x,y):
 	moyY=moyenne(y)
 	result=0
 	for index,val in enumerate(x):
-		result+=(val-moyX)*(y[index]-moyY)
+		result+=(int(val)-moyX)*(int(y[index])-moyY)
 	return round(result/len(x),2)
 
 # Fonction qui calcule le pourcentage et qui le renvoie arrondi à  2 décimales près #
 
 def pourcentage(a,b):
-	return round(a*100/b)
+	return round(int(a)*100/int(b),2)

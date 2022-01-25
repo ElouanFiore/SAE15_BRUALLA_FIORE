@@ -31,31 +31,32 @@ if input("Voulez-vous lancez une récupération ? [Y = oui ] ").lower() == "y":
 recupvelo  = CSV(endpoints_velo.keys(), path="./databrutes")
 data_velo = recupvelo.getFromList(endpoints_velo.keys())
 
-for i in endpoints.velo.keys[]:
-	total =  data_velo[i]["to"]
+for i in endpoints_velo.keys():
+	total =  data_velo[i]["to"][0]
 	moyenne = stat.moyenne(data_velo[i]["av"])
 	sigma = stat.ecart_type(data_velo[i]["av"])
 	pourcent = stat.pourcentage(moyenne, total)
 	
 	with open("compte_rendu.txt", "a") as f:
-		f.writeline(f"[{endpoints_velo[i]}]")
-		f.writeline(f"	Nombres de vélos disponible maximum: {total}")
-		f.writeline(f"	Moyenne du nombres de vélos disponibles : {moyenne}")
-		f.writeline(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}")
-		f.writeline(f"	Ecart type à la moyenne : {sigma}")
+		f.write(f"[{endpoints_velo[i]} vélo]\n")
+		f.write(f"	Nombres de vélos disponible maximum: {total}\n")
+		f.write(f"	Moyenne du nombres de vélos disponibles : {moyenne}\n")
+		f.write(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}%\n")
+		f.write(f"	Ecart type à la moyenne : {sigma}\n")
+		f.write("\n")
 
 recupvoiture = CSV(endpoints_voiture.keys(), path="./databrutes")
 code_park = list(endpoints_voiture.keys())[0]
 data_corum = recupvoiture.getOne(code_park)
 
-total =  data_corum["Total"]
-moyenne = stat.moyenne(data_corum[i]["Free"])
-sigma = stat.ecart_type(data_corum[i]["Free"])
+total =  data_corum["Total"][0]
+moyenne = stat.moyenne(data_corum["Free"])
+sigma = stat.ecart_type(data_corum["Free"])
 pourcent = stat.pourcentage(moyenne, total)
 
 with open("compte_rendu.txt", "a") as f:
-	f.writeline(f"[{endpoints_voiture[code_park]}]")
-	f.writeline(f"	Nombres de vélos disponible maximum: {total}")
-	f.writeline(f"	Moyenne du nombres de vélos disponibles : {moyenne}")
-	f.writeline(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}")
-	f.writeline(f"	Ecart type à la moyenne : {sigma}")
+	f.writelines(f"[{endpoints_voiture[code_park]} voiture]\n")
+	f.writelines(f"	Nombres de vélos disponible maximum: {total}\n")
+	f.writelines(f"	Moyenne du nombres de vélos disponibles : {moyenne}\n")
+	f.writelines(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}%\n")
+	f.writelines(f"	Ecart type à la moyenne : {sigma}\n")
