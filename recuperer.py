@@ -28,7 +28,7 @@ class API():
 				error += 1
 				self.log(0, f"ERROR {code} {status}")
 		
-		self.log(1, f"######################################### End downloading, {error} error(s) #########################################")
+		self.log(1, f"################################# End downloading, {error} error(s) #################################")
 	
 
 	def processXML(self, field, id=[], timecap=0):
@@ -68,7 +68,7 @@ class API():
 							for f in field:
 								self.endpointsParse[i][f] = attr[f]
 
-		self.log(1, f"############################################### End processing ################################################")
+		self.log(1, f"####################################### End processing ########################################")
 
 	def saveCSV(self, path="."):
 		for code, contenu in self.endpointsParse.items():
@@ -91,7 +91,7 @@ class API():
 					fichier.write(f"{line}\n")
 					fichier.close()
 		
-		self.log(1, "################################################# End saving ##################################################")
+		self.log(1, "######################################### End saving ##########################################")
 	
 	def print(self):
 		for code, contenu in self.endpointsParse.items():
@@ -109,12 +109,14 @@ class API():
 			function()
 			execTime = int(time.time()) - execTime
 			execute += 1
-			self.log(1, f"############################################# Sleeping for {sleep/60} min #############################################")
+			self.log(1, f"##################################### Sleeping for {sleep/60} min #####################################")
 			time.sleep(sleep - execTime)
 		
 		self.log(1, f"Executed {execute} time(s)")
 	
 	def log(self, level, message):
+		now = time.localtime(time.time())
+		message = time.strftime("%d/%m/%Y %H:%M ; ", now) + message
 		if self.loglevel >= level:
 			print(message)
 			with open("recup.log", "a") as f:
