@@ -22,4 +22,4 @@ def recup():
 	velo.processXML(champs_velo.keys(), timecap=temps)
 	velo.saveCSV(path="./databrutes")
 
-velo.runFor(10, 2, recup)
+velo.runFor(1440, 5, recup)
