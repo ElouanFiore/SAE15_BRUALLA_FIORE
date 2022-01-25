@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from math import sqrt
 
 ### Ce fichier python servira à epauler notre fichier de recupération ###

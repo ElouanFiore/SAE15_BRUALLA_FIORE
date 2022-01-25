@@ -1,4 +1,4 @@
-#:!/usr/bin/python3
+# -*- coding: utf-8 -*-
 # Elouan FIORE Léo BRUALLA
 # Version 1
 
@@ -8,46 +8,36 @@ import requests
 import time
 
 class API():
-	def __init__(self, url, where="tag", log=1):
+	def __init__(self, url, log=1):
 		self.url = url
 		self.loglevel = log
-		self.where = where
 	
-	def downloadEndpoints(self, endpoints):
+	def downloadEndpoints(self, lst=[]):
 		error = 0
-		if self.where == "id":
-			self.endpoints = endpoints
-			self.log(2, f"Downloading {self.url}...")
-			
-			reponse = requests.get(self.url)
+		self.endpointsData = {}
+
+		for code in lst:
+			self.log(2, f"Downloading {code}...")
+
+			reponse = requests.get(self.url.format(code))
 			status = reponse.status_code
+
 			if status == 200:
-				self.endpointsData = reponse.content
+				self.endpointsData[code] = reponse.content
 			else:
 				error += 1
-				self.log(0, f"Error {status}")
-
-		elif self.where == "tag":
-			self.endpointsData = {}
-
-			for code in endpoints:
-				self.log(2, f"Downloading {code}...")
-
-				reponse = requests.get(self.url.format(code))
-				status = reponse.status_code
-
-				if status == 200:
-					self.endpointsData[code] = reponse.content
-				else:
-					error += 1
-					self.log(0, f"Error {status}")
+				self.log(0, f"ERROR {code} {status}")
 		
-		self.log(1, f"########## End downloading, {error} error(s) ##########\n")
+		self.log(1, f"######################################### End downloading, {error} error(s) #########################################")
 	
 
-	def processXML(self, field, timecap=0):
-		if self.where == "tag":
-			self.endpointsParse = {}
+	def processXML(self, field, id=[], timecap=0):
+		self.endpointsParse = {}
+		if timecap == 0:
+			now = time.localtime(time.time())
+			timecap = time.strftime("%d/%m/%Y-%H:%M", now)
+
+		if id == []:
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
 				contenu = etree.fromstring(contenu)	
@@ -55,51 +45,36 @@ class API():
 				self.log(2, f"Processing {code}...")
 				self.endpointsParse[code] = {}
 
-				if timecap == 0:
-					now = time.localtime(time.time())
-					timecap = time.strftime("%d/%m/%Y-%H:%M", now)
 				self.endpointsParse[code]["CapTime"] = timecap
-
 				for f in field:
 					for i in contenu:
 						if i.tag == f:
 							self.endpointsParse[code][f] = i.text
+		else:
+			for code, contenu in self.endpointsData.items():
+				self.log(2, f"Converting {code}...")
+				contenu = etree.fromstring(contenu)
+				contenu = list(contenu)[0]
 
-			self.log(1, f"########## End processing ##########\n")
-	
-		elif self.where == "id":
-			self.endpointsParse = {}
-			self.log(2, f"Converting {self.url}...")
-			contenu = etree.fromstring(self.endpointsData)
-			
-			#pass the first element which is a <sl> tag empty
-			contenu = list(contenu)[0]
+				for i in id:
+					self.log(2, f"Processing {i}...")
+					self.endpointsParse[i] = {}
 
-
-			for code in self.endpoints:
-				self.log(2, f"Processing {code}...")
-				self.endpointsParse[code] = {}
-
-				if timecap == 0:
-					now = time.localtime(time.time())
-					timecap = time.strftime("%d/%m/%Y-%H:%M", now)
-				self.endpointsParse[code]["CapTime"] = timecap
-
-				for element in contenu:
-					attr = element.attrib
-					if attr["id"] == code:
-						for f in field:
-							self.endpointsParse[code][f] = attr[f]
+					self.endpointsParse[i]["CapTime"] = timecap
+					for element in contenu:
+						attr = element.attrib
 						
+						if attr["id"] == i:
+							for f in field:
+								self.endpointsParse[i][f] = attr[f]
 
-			self.log(1, f"########## End processing ##########\n")
+		self.log(1, f"############################################### End processing ################################################")
 
 	def saveCSV(self, path="."):
 		for code, contenu in self.endpointsParse.items():
 			self.log(2, f"Saving {code}...")
 			
 			line = ""
-			
 			for data in contenu.values():
 				line += f"{data};"
 			
@@ -116,11 +91,11 @@ class API():
 					fichier.write(f"{line}\n")
 					fichier.close()
 		
-		self.log(1, "########## End saving ##########\n")
+		self.log(1, "################################################# End saving ##################################################")
 	
 	def print(self):
 		for code, contenu in self.endpointsParse.items():
-			print(f"\n{code}")
+			print(f"{code}")
 			for field, data in contenu.items():
 				print(f"	{field} : {data}")
 
@@ -134,7 +109,7 @@ class API():
 			function()
 			execTime = int(time.time()) - execTime
 			execute += 1
-			self.log(1, f"########## Sleeping for {sleep/60} min ##########\n")
+			self.log(1, f"############################################# Sleeping for {sleep/60} min #############################################")
 			time.sleep(sleep - execTime)
 		
 		self.log(1, f"Executed {execute} time(s)")
@@ -143,7 +118,7 @@ class API():
 		if self.loglevel >= level:
 			print(message)
 			with open("recup.log", "a") as f:
-				f.write(f"\n{message}")
+				f.write(f"{message}\n")
 				f.close()
 
 class CSV():
@@ -202,26 +177,27 @@ class CSV():
 		return listparsed
 
 if __name__ == "__main__":
-	urlvoi = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
+	url = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
+	
 	endpointsvoi = {'FR_MTP_ANTI': 'Antigone', 'FR_MTP_COME': 'Comédie', 'FR_MTP_CORU': 'Corum', 'FR_MTP_EURO': 'Europa', 'FR_MTP_FOCH': 'Foch', 'FR_MTP_GAMB': 'Gambetta', 'FR_MTP_GARE': 'Gare', 'FR_MTP_TRIA': 'Triangle', 'FR_MTP_ARCT': 'Arc de Triomphe', 'FR_MTP_PITO': 'Pitot', 'FR_MTP_CIRC': 'Circe', 'FR_MTP_SABI': 'Sabines', 'FR_MTP_GARC': 'Garcia Lorca', 'FR_MTP_SABL': 'Sablassou', 'FR_MTP_MOSS': 'Mosson', 'FR_STJ_SJLC': 'Saint Jean le Sec', 'FR_MTP_MEDC': '    Euromédecine', 'FR_MTP_OCCI': 'Occitanie', 'FR_CAS_VICA': 'Vicarello', 'FR_MTP_GA109': 'Gaumont EST', 'FR_MTP_GA250': 'Gaumont OUEST', 'FR_CAS_CDGA': 'Charles de Gaulle', 'FR_MTP_ARCE': 'Arceaux', 'FR_MTP_POLY': 'Polygone'}
 	champsvoi = {"DateTime": "Heure d'actualisation", "Name": "Nom du parking", "Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
-	voiture = API(urlvoi, log=2)
 	
-	urlve = "https://data.montpellier3m.fr/sites/default/files/ressources/TAM_MMM_VELOMAG.xml"
-	endpointsve = {"003": "Esplanade", "005": "Corum"}
+	endpointsve = {"TAM_MMM_VELOMAG": "velo"}
+	idve = {"003": "Esplanade", "005": "Corum"}
 	champsve = {"av": "Places occupées", "fr": "Places libres", "to": "Places totales"}
-	velo = API(urlve, where="id", log=2)
+	
+	velo = API(url, log=2)
+	voiture = API(url, log=2)
 
 	def recup():
 		temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
+		
 		voiture.downloadEndpoints(endpointsvoi.keys())
 		voiture.processXML(champsvoi.keys(), timecap=temps)
-		voiture.saveCSV(path="./databrutes")
+		
 		velo.downloadEndpoints(endpointsve.keys())
-		velo.processXML(champsve.keys(), timecap=temps)
-		velo.saveCSV(path="./databrutes")
+		velo.processXML(champsve.keys(), id=idve.keys(), timecap=temps)
 
 	recup()
-
-	revoiture = CSV(endpointsve.keys(), path="./databrutes")
-	print(revoiture.getFromList(endpointsve.keys()))
+	velo.print()
+	voiture.print()

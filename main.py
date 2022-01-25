@@ -1,62 +1,70 @@
+# -*- coding: utf-8 -*-
+from statistics import covariance
 from recuperer import API, CSV
-import time
 import statistiques as stat
+import time
 
-url_voiture = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
+url = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
+
 endpoints_voiture = {'FR_MTP_CORU': 'Corum'}
 champs_voiture = {"Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
-voiture = API(url_voiture, log=2)
 
-url_velo = "https://data.montpellier3m.fr/sites/default/files/ressources/TAM_MMM_VELOMAG.xml"
-endpoints_velo = {"003": "Esplanade", "005": "Corum"}
+endpoints_velo = {"TAM_MMM_VELOMAG": "velo"}
+id_velo = {"003": "Esplanade", "005": "Corum"}
 champs_velo = {"av": "Places occupées", "fr": "Places libres", "to": "Places totales"}
-velo = API(url_velo, where="id", log=2)
+
+voiture = API(url, log=2)
+velo = API(url, log=2)
+
+def recup():
+	temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
+
+	voiture.downloadEndpoints(endpoints_voiture.keys())
+	voiture.processXML(champs_voiture.keys(), timecap=temps)
+	voiture.saveCSV(path="./databrutes")
+
+	velo.downloadEndpoints(endpoints_velo.keys())
+	velo.processXML(champs_velo.keys(), id=id_velo.keys(), timecap=temps)
+	velo.saveCSV(path="./databrutes")
+
+def compte_rendu(n, t, m, p, s):
+	with open("compte_rendu.txt", "a") as f:
+		f.write(f"[{n}]\n")
+		f.write(f"	Nombres de vélos disponible maximum: {t}\n")
+		f.write(f"	Moyenne du nombres de vélos disponibles : {m}\n")
+		f.write(f"	Pourcentage moyen du nombres de vélos disponibles : {p}%\n")
+		f.write(f"	Ecart type à la moyenne : {s}\n")
+		f.write("\n")
+		f.close()
 
 if input("Voulez-vous lancez une récupération ? [Y = oui ] ").lower() == "y":
+	recup()
 
-	def recup():
-		temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
-	
-		voiture.downloadEndpoints(endpoints_voiture.keys())
-		voiture.processXML(champs_voiture.keys(), timecap=temps)
-		voiture.saveCSV(path="./databrutes")
-	
-		velo.downloadEndpoints(endpoints_velo.keys())
-		velo.processXML(champs_velo.keys(), timecap=temps)
-		velo.saveCSV(path="./databrutes")
-
-	velo.runFor(1440, 5, recup)
-
-
-recupvelo  = CSV(endpoints_velo.keys(), path="./databrutes")
-data_velo = recupvelo.getFromList(endpoints_velo.keys())
-
-for i in endpoints_velo.keys():
-	total =  data_velo[i]["to"][0]
-	moyenne = stat.moyenne(data_velo[i]["av"])
-	sigma = stat.ecart_type(data_velo[i]["av"])
-	pourcent = stat.pourcentage(moyenne, total)
-	
-	with open("compte_rendu.txt", "a") as f:
-		f.write(f"[{endpoints_velo[i]} vélo]\n")
-		f.write(f"	Nombres de vélos disponible maximum: {total}\n")
-		f.write(f"	Moyenne du nombres de vélos disponibles : {moyenne}\n")
-		f.write(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}%\n")
-		f.write(f"	Ecart type à la moyenne : {sigma}\n")
-		f.write("\n")
-
+recupvelo  = CSV(id_velo.keys(), path="./databrutes")
 recupvoiture = CSV(endpoints_voiture.keys(), path="./databrutes")
+
 code_park = list(endpoints_voiture.keys())[0]
 data_corum = recupvoiture.getOne(code_park)
-
 total =  data_corum["Total"][0]
 moyenne = stat.moyenne(data_corum["Free"])
 sigma = stat.ecart_type(data_corum["Free"])
 pourcent = stat.pourcentage(moyenne, total)
+compte_rendu(f"{endpoints_voiture[code_park]} voiture", total, moyenne, pourcent, sigma)
 
-with open("compte_rendu.txt", "a") as f:
-	f.writelines(f"[{endpoints_voiture[code_park]} voiture]\n")
-	f.writelines(f"	Nombres de vélos disponible maximum: {total}\n")
-	f.writelines(f"	Moyenne du nombres de vélos disponibles : {moyenne}\n")
-	f.writelines(f"	Pourcentage moyen du nombres de vélos disponibles : {pourcent}%\n")
-	f.writelines(f"	Ecart type à la moyenne : {sigma}\n")
+data_velo = recupvelo.getFromList(id_velo.keys())
+for code, nom in id_velo.items():
+	total =  data_velo[code]["to"][0]
+	moyenne = stat.moyenne(data_velo[code]["av"])
+	sigma = stat.ecart_type(data_velo[code]["av"])
+	pourcent = stat.pourcentage(moyenne, total)
+	compte_rendu(f"{nom} vélo", total, moyenne, pourcent, sigma)
+
+for code, nom in id_velo.items():
+	co = stat.covar(data_corum["Free"], data_velo[code]["fr"])
+	t = stat.ecart_type(data_corum["Free"]) * stat.ecart_type(data_velo[code]["fr"])
+	with open("compte_rendu.txt", "a") as f:
+		f.write(f"[Covariance {endpoints_voiture[code_park]} voiture / {nom} vélos]\n")
+		f.write(f"	Covariance : {co}\n")
+		f.write(f"	Indice de covariance : {round(co/t, 2)}\n")
+		f.write("\n")
+		f.close()
