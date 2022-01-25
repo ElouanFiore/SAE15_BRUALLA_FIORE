@@ -14,7 +14,7 @@ def ecart_type(L):
 	for x in range(len(L)):
 		ecart=ecart+(L[x]-moy)**2
 	ecart=sqrt(ecart/len(L))
-	return(ecart)
+	return round(ecart,3)
 
 def covar(x,y):
 	moyX=moyenne(x)
@@ -22,4 +22,4 @@ def covar(x,y):
 	result=0
 	for index,val in enumerate(x):
 		result+=(val-moyX)*(y[index]-moyY)
-	return result/len(x)
+	return round(result/len(x),2)
