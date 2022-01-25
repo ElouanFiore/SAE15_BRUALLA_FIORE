@@ -103,20 +103,24 @@ class API():
 		endTime = int(time.time()) + lenght*60
 		execute = 0
 		sleep *= 60
+		endstr =time.strftime("%d/%m/%Y %H:%M", time.localtime(endTime))
+		self.log(1, f"End at {endstr}")
 
 		while int(time.time()) < endTime:
 			execTime = int(time.time())
 			function()
-			execTime = int(time.time()) - execTime
 			execute += 1
-			self.log(1, f"##################################### Sleeping for {sleep/60} min #####################################")
-			time.sleep(sleep - execTime)
+			
+			if int(time.time()) < endTime:
+				self.log(1, f"#################################### Sleeping for {sleep/60} min #####################################")
+				execTime = int(time.time()) - execTime
+				time.sleep(sleep - execTime)
 		
 		self.log(1, f"Executed {execute} time(s)")
 	
 	def log(self, level, message):
 		now = time.localtime(time.time())
-		message = time.strftime("%d/%m/%Y %H:%M ; ", now) + message
+		message = time.strftime("%d/%m/%Y %H:%M:%S ; ", now) + message
 		if self.loglevel >= level:
 			print(message)
 			with open("recup.log", "a") as f:
@@ -200,6 +204,4 @@ if __name__ == "__main__":
 		velo.downloadEndpoints(endpointsve.keys())
 		velo.processXML(champsve.keys(), id=idve.keys(), timecap=temps)
 
-	recup()
-	velo.print()
-	voiture.print()
+	velo.runFor(2, 1, recup)

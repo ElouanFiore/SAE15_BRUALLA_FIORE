@@ -60,11 +60,13 @@ for code, nom in id_velo.items():
 	compte_rendu(f"{nom} vélo", total, moyenne, pourcent, sigma)
 
 for code, nom in id_velo.items():
-	co = stat.covar(data_corum["Free"], data_velo[code]["fr"])
-	t = stat.ecart_type(data_corum["Free"]) * stat.ecart_type(data_velo[code]["fr"])
+	co = stat.covar(data_corum["Free"], data_velo[code]["av"])
+	t = stat.ecart_type(data_corum["Free"]) * stat.ecart_type(data_velo[code]["av"])
 	with open("compte_rendu.txt", "a") as f:
 		f.write(f"[Covariance {endpoints_voiture[code_park]} voiture / {nom} vélos]\n")
 		f.write(f"	Covariance : {co}\n")
 		f.write(f"	Indice de covariance : {round(co/t, 2)}\n")
 		f.write("\n")
 		f.close()
+
+stat.datagnuplot(data_corum["CapTime"], data_corum["Free"], data_velo["003"]["av"], data_velo["005"]["av"])

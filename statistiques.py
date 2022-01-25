@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from math import sqrt
+import time
 
 ### Ce fichier python servira à epauler notre fichier de recupération ###
 
@@ -36,3 +37,10 @@ def covar(x,y):
 
 def pourcentage(a,b):
 	return round(int(a)*100/int(b),2)
+
+
+def datagnuplot(a, b, c, d):
+	with open("datagnuplot.dat", "w") as f:
+		for i, val in enumerate(a):
+			f.write(f"{val} {b[i]} {c[i]} {d[i]}\n")
+		f.close
