@@ -91,7 +91,7 @@ for code, nom in id_velo.items():
 	with open("compte_rendu.txt", "a") as f:
 		f.write(f"[Covariance {endpoints_voiture[code_park]} / {nom}]\n")
 		f.write(f"	Covariance : {co}\n")
-		f.write(f"	Indice de covariance : {round(co/t, 2)}\n")
+		f.write(f"	Coefficient de corrélation : {round(co/t, 2)}\n")
 		f.write("\n")
 		f.close()
 
