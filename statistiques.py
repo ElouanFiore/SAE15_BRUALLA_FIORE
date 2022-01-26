@@ -38,6 +38,7 @@ def covar(x,y):
 def pourcentage(a,b):
 	return round(int(a)*100/int(b),2)
 
+# Fonction qui permet de stocker les fichiers data afin que gnuplot puisse les utiliser #
 
 def datagnuplot(a, b, c, d):
 	with open("datagnuplot.dat", "w") as f:
