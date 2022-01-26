@@ -38,7 +38,7 @@ def recup():
 	apivoiture.processXML(champs_voiture.keys(), timecap=temps)
 	apivoiture.saveCSV(path="./databrutes")
 
-	apivelo.downloadEndpoints(endpoints_velo.keys())
+	apivelo.downloadEndpoints(endpoints_velo)
 	apivelo.processXML(champs_velo.keys(), id=id_velo.keys(), timecap=temps)
 	apivelo.saveCSV(path="./databrutes")
 
