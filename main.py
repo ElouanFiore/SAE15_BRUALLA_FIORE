@@ -75,7 +75,7 @@ total =  data_corum["Total"][0]
 moyenne = stat.moyenne(data_corum["Free"])
 sigma = stat.ecart_type(data_corum["Free"])
 pourcent = stat.pourcentage(moyenne, total)
-compte_rendu(f"{endpoints_voiture[code_park]}", total, moyenne, pourcent, sigma)
+compte_rendu_voiture(f"{endpoints_voiture[code_park]}", total, moyenne, pourcent, sigma)
 
 data_velo = recupvelo.getFromList(id_velo.keys())
 for code, nom in id_velo.items():
@@ -83,7 +83,7 @@ for code, nom in id_velo.items():
 	moyenne = stat.moyenne(data_velo[code]["av"])
 	sigma = stat.ecart_type(data_velo[code]["av"])
 	pourcent = stat.pourcentage(moyenne, total)
-	compte_rendu(f"{nom}", total, moyenne, pourcent, sigma)
+	compte_rendu_velo(f"{nom}", total, moyenne, pourcent, sigma)
 
 for code, nom in id_velo.items():
 	co = stat.covar(data_corum["Free"], data_velo[code]["av"])
