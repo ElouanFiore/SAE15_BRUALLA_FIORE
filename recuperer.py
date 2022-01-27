@@ -2,7 +2,6 @@
 # Elouan FIORE Léo BRUALLA
 # Version 1
 
-
 from lxml import etree
 import requests
 import time
@@ -40,33 +39,40 @@ class API():
 		if id == []:
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
-				contenu = etree.fromstring(contenu)	
-
-				self.log(2, f"Processing {code}...")
-				self.endpointsParse[code] = {}
-
-				self.endpointsParse[code]["CapTime"] = timecap
-				for f in field:
-					for i in contenu:
-						if i.tag == f:
-							self.endpointsParse[code][f] = i.text
+				try:
+					contenu = etree.fromstring(contenu)	
+				except etree.XMLSyntaxError:
+					self.log(0, f"PARSING ERROR {code}")
+					self.endpointsParse[code]["CapTime"] = timecap
+				else:
+					self.log(2, f"Processing {code}...")
+					self.endpointsParse[code] = {}	
+					self.endpointsParse[code]["CapTime"] = timecap
+					for f in field:
+						for i in contenu:
+							if i.tag == f:
+								self.endpointsParse[code][f] = i.text
 		else:
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
-				contenu = etree.fromstring(contenu)
-				contenu = list(contenu)[0]
-
-				for i in id:
-					self.log(2, f"Processing {i}...")
-					self.endpointsParse[i] = {}
-
+				try:
+					contenu = etree.fromstring(contenu)
+				except etree.XMLSyntaxError:
+					self.log(0, f"PARSING ERROR {code}")
 					self.endpointsParse[i]["CapTime"] = timecap
-					for element in contenu:
-						attr = element.attrib
+				else:	
+					contenu = list(contenu)[0]
+					for i in id:
+						self.log(2, f"Processing {i}...")
+						self.endpointsParse[i] = {}
+	
+						self.endpointsParse[i]["CapTime"] = timecap
+						for element in contenu:
+							attr = element.attrib
 						
-						if attr["id"] == i:
-							for f in field:
-								self.endpointsParse[i][f] = attr[f]
+							if attr["id"] == i:
+								for f in field:
+									self.endpointsParse[i][f] = attr[f]
 
 		self.log(1, f"####################################### End processing ########################################")
 
