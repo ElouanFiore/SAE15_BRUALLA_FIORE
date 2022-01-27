@@ -10,11 +10,11 @@ class API():
 	def __init__(self, url, log=1):
 		self.url = url
 		self.loglevel = log
-	
+		self.endpointsParse = {}
+
 	def downloadEndpoints(self, lst=[]):
 		error = 0
 		self.endpointsData = {}
-		self.endpointsParse = {}
 
 		for code in lst:
 			self.log(2, f"Downloading {code}...")
@@ -30,6 +30,7 @@ class API():
 	
 
 	def processXML(self, field, id=[], timecap=0):
+		self.field = field
 		if timecap == 0:
 			now = time.localtime(time.time())
 			timecap = time.strftime("%d/%m/%Y-%H:%M", now)
@@ -42,9 +43,12 @@ class API():
 				except lxml.etree.XMLSyntaxError:
 					self.log(0, f"PARSING ERROR {code}")
 					if not code in self.endpointsParse.keys():
+						print("here", self.endpointsParse.keys(), code)
 						self.endpointsParse[code] = {"CapTime": timecap}
 					else:
 						self.endpointsParse[code]["CapTime"] = timecap
+						print(self.endpointsParse)
+				
 				else:
 					self.log(2, f"Processing {code}...")
 					self.endpointsParse[code] = {}
@@ -57,7 +61,6 @@ class API():
 		else:
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
-				self.endpointsParse[code] = {}
 				try:
 					contenu = lxml.etree.fromstring(contenu)
 				except lxml.etree.XMLSyntaxError:
@@ -93,7 +96,7 @@ class API():
 				fichier = open(f"{path}/{code}.csv", "r")
 				fichier.close()
 			except FileNotFoundError:
-				header = ";".join(contenu.keys())
+				header = ";".join(["CapTime"] + self.field)
 				with open(f"{path}/{code}.csv", "w") as fichier:
 					fichier.write(f"{header}\n{line}\n")
 					fichier.close()
