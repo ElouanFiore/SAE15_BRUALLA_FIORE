@@ -4,7 +4,7 @@ import statistiques as stat
 import time
 import os
 
-longueur = 120 #nombre de minute dans un jour
+longueur = 24*60 #nombre de minute dans un jour
 periode = 5 #toutes les 5 minutes
 
 """
