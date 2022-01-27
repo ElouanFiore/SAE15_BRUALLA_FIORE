@@ -4,8 +4,8 @@ import statistiques as stat
 import time
 import os
 
-longueur = 10 #nombre de minute dans un jour
-periode = 2 #toutes les 5 minutes
+longueur = 24*60 #nombre de minute dans un jour
+periode = 5 #toutes les 5 minutes
 
 """
 Used to make the dict of velo ids 
