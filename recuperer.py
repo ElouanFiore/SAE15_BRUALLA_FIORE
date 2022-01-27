@@ -14,13 +14,12 @@ class API():
 	def downloadEndpoints(self, lst=[]):
 		error = 0
 		self.endpointsData = {}
+		self.endpointsParse = {}
 
 		for code in lst:
 			self.log(2, f"Downloading {code}...")
-
 			reponse = requests.get(self.url.format(code))
 			status = reponse.status_code
-
 			if status == 200:
 				self.endpointsData[code] = reponse.content
 			else:
@@ -31,7 +30,6 @@ class API():
 	
 
 	def processXML(self, field, id=[], timecap=0):
-		self.endpointsParse = {}
 		if timecap == 0:
 			now = time.localtime(time.time())
 			timecap = time.strftime("%d/%m/%Y-%H:%M", now)
@@ -43,10 +41,13 @@ class API():
 					contenu = lxml.etree.fromstring(contenu)	
 				except lxml.etree.XMLSyntaxError:
 					self.log(0, f"PARSING ERROR {code}")
-					self.endpointsParse[code]["CapTime"] = timecap
+					if not code in self.endpointsParse.keys():
+						self.endpointsParse[code] = {"CapTime": timecap}
+					else:
+						self.endpointsParse[code]["CapTime"] = timecap
 				else:
 					self.log(2, f"Processing {code}...")
-					self.endpointsParse[code] = {}	
+					self.endpointsParse[code] = {}
 					self.endpointsParse[code]["CapTime"] = timecap
 					for f in field:
 						for i in contenu:
@@ -56,17 +57,21 @@ class API():
 		else:
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
+				self.endpointsParse[code] = {}
 				try:
 					contenu = lxml.etree.fromstring(contenu)
 				except lxml.etree.XMLSyntaxError:
 					self.log(0, f"PARSING ERROR {code}")
-					self.endpointsParse[i]["CapTime"] = timecap
+					for i in id:
+						if not i in self.endpointsParse.keys():
+							self.endpointsParse[i] = {"CapTime": timecap}
+						else:
+							self.endpointsParse[i]["CapTime"] = timecap
 				else:
 					contenu = list(contenu)[0]
 					for i in id:
 						self.log(2, f"Processing {i}...")
 						self.endpointsParse[i] = {}
-	
 						self.endpointsParse[i]["CapTime"] = timecap
 						for element in contenu:
 							attr = element.attrib
@@ -80,7 +85,6 @@ class API():
 	def saveCSV(self, path="."):
 		for code, contenu in self.endpointsParse.items():
 			self.log(2, f"Saving {code}...")
-			
 			line = ""
 			for data in contenu.values():
 				line += f"{data};"
@@ -112,7 +116,6 @@ class API():
 		sleep *= 60
 		endstr =time.strftime("%d/%m/%Y %H:%M", time.localtime(endTime))
 		self.log(1, f"End at {endstr}")
-
 		while int(time.time()) < endTime:
 			execTime = int(time.time())
 			function()
