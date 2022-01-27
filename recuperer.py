@@ -30,7 +30,7 @@ class API():
 	
 
 	def processXML(self, field, id=[], timecap=0):
-		self.field = field
+		self.field = list(field)
 		if timecap == 0:
 			now = time.localtime(time.time())
 			timecap = time.strftime("%d/%m/%Y-%H:%M", now)
