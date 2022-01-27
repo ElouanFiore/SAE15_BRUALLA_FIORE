@@ -2,7 +2,7 @@
 # Elouan FIORE Léo BRUALLA
 # Version 1
 
-from lxml import etree
+import lxml.etree
 import requests
 import time
 
@@ -40,8 +40,8 @@ class API():
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
 				try:
-					contenu = etree.fromstring(contenu)	
-				except etree.XMLSyntaxError:
+					contenu = lxml.etree.fromstring(contenu)	
+				except lxml.etree.XMLSyntaxError:
 					self.log(0, f"PARSING ERROR {code}")
 					self.endpointsParse[code]["CapTime"] = timecap
 				else:
@@ -52,15 +52,16 @@ class API():
 						for i in contenu:
 							if i.tag == f:
 								self.endpointsParse[code][f] = i.text
+		
 		else:
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
 				try:
-					contenu = etree.fromstring(contenu)
-				except etree.XMLSyntaxError:
+					contenu = lxml.etree.fromstring(contenu)
+				except lxml.etree.XMLSyntaxError:
 					self.log(0, f"PARSING ERROR {code}")
 					self.endpointsParse[i]["CapTime"] = timecap
-				else:	
+				else:
 					contenu = list(contenu)[0]
 					for i in id:
 						self.log(2, f"Processing {i}...")
