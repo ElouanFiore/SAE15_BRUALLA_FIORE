@@ -1,0 +1,486 @@
+[Antigone voiture]
+	Nombres de places disponibles maximum: 239
+	Moyenne du nombres de places disponibles : 143.26
+	Pourcentage moyen du nombres de places disponibles : 59.83%
+	Écart type à la moyenne : 9.54
+
+[Comédie voiture]
+	Nombres de places disponibles maximum: 835
+	Moyenne du nombres de places disponibles : 333.77
+	Pourcentage moyen du nombres de places disponibles : 39.88%
+	Écart type à la moyenne : 142.54
+
+[Corum voiture]
+	Nombres de places disponibles maximum: 430
+	Moyenne du nombres de places disponibles : 94.17
+	Pourcentage moyen du nombres de places disponibles : 21.86%
+	Écart type à la moyenne : 35.92
+
+[Europa voiture]
+	Nombres de places disponibles maximum: 593
+	Moyenne du nombres de places disponibles : 374.76
+	Pourcentage moyen du nombres de places disponibles : 63.07%
+	Écart type à la moyenne : 73.34
+
+[Foch voiture]
+	Nombres de places disponibles maximum: 540
+	Moyenne du nombres de places disponibles : 150.64
+	Pourcentage moyen du nombres de places disponibles : 27.78%
+	Écart type à la moyenne : 79.87
+
+[Gambetta voiture]
+	Nombres de places disponibles maximum: 470
+	Moyenne du nombres de places disponibles : 106.87
+	Pourcentage moyen du nombres de places disponibles : 22.55%
+	Écart type à la moyenne : 16.77
+
+[Gare voiture]
+	Nombres de places disponibles maximum: 656
+	Moyenne du nombres de places disponibles : 383.42
+	Pourcentage moyen du nombres de places disponibles : 58.38%
+	Écart type à la moyenne : 37.87
+
+[Triangle voiture]
+	Nombres de places disponibles maximum: 436
+	Moyenne du nombres de places disponibles : 301.84
+	Pourcentage moyen du nombres de places disponibles : 69.04%
+	Écart type à la moyenne : 13.65
+
+[Arc de Triomphe voiture]
+	Nombres de places disponibles maximum: 460
+	Moyenne du nombres de places disponibles : 134.51
+	Pourcentage moyen du nombres de places disponibles : 29.13%
+	Écart type à la moyenne : 31.47
+
+[Pitot voiture]
+	Nombres de places disponibles maximum: 588
+	Moyenne du nombres de places disponibles : 340.38
+	Pourcentage moyen du nombres de places disponibles : 57.82%
+	Écart type à la moyenne : 56.54
+
+[Circe voiture]
+	Nombres de places disponibles maximum: 1200
+	Moyenne du nombres de places disponibles : 585.0
+	Pourcentage moyen du nombres de places disponibles : 48.75%
+	Écart type à la moyenne : 0.0
+
+[Sabines voiture]
+	Nombres de places disponibles maximum: 485
+	Moyenne du nombres de places disponibles : 298.86
+	Pourcentage moyen du nombres de places disponibles : 61.44%
+	Écart type à la moyenne : 55.38
+
+[Garcia Lorca voiture]
+	Nombres de places disponibles maximum: 395
+	Moyenne du nombres de places disponibles : 278.09
+	Pourcentage moyen du nombres de places disponibles : 70.38%
+	Écart type à la moyenne : 27.34
+
+[Sablassou voiture]
+	Nombres de places disponibles maximum: 372
+	Moyenne du nombres de places disponibles : 175.85
+	Pourcentage moyen du nombres de places disponibles : 47.04%
+	Écart type à la moyenne : 57.87
+
+[Mosson voiture]
+	Nombres de places disponibles maximum: 423
+	Moyenne du nombres de places disponibles : 118.25
+	Pourcentage moyen du nombres de places disponibles : 27.9%
+	Écart type à la moyenne : 59.34
+
+[Saint Jean le Sec voiture]
+	Nombres de places disponibles maximum: 290
+	Moyenne du nombres de places disponibles : 197.61
+	Pourcentage moyen du nombres de places disponibles : 67.93%
+	Écart type à la moyenne : 16.99
+
+[Euromédecine voiture]
+	Nombres de places disponibles maximum: 255
+	Moyenne du nombres de places disponibles : 147.59
+	Pourcentage moyen du nombres de places disponibles : 57.65%
+	Écart type à la moyenne : 28.13
+
+[Occitanie voiture]
+	Nombres de places disponibles maximum: 627
+	Moyenne du nombres de places disponibles : 509.95
+	Pourcentage moyen du nombres de places disponibles : 81.18%
+	Écart type à la moyenne : 102.0
+
+[Vicarello voiture]
+	Nombres de places disponibles maximum: 74
+	Moyenne du nombres de places disponibles : 43.8
+	Pourcentage moyen du nombres de places disponibles : 58.11%
+	Écart type à la moyenne : 12.87
+
+[Gaumont EST voiture]
+	Nombres de places disponibles maximum: 109
+	Moyenne du nombres de places disponibles : 102.13
+	Pourcentage moyen du nombres de places disponibles : 93.58%
+	Écart type à la moyenne : 4.31
+
+[Gaumont OUEST voiture]
+	Nombres de places disponibles maximum: 250
+	Moyenne du nombres de places disponibles : 207.74
+	Pourcentage moyen du nombres de places disponibles : 82.8%
+	Écart type à la moyenne : 38.79
+
+[Charles de Gaulle voiture]
+	Nombres de places disponibles maximum: 260
+	Moyenne du nombres de places disponibles : 101.14
+	Pourcentage moyen du nombres de places disponibles : 38.85%
+	Écart type à la moyenne : 13.04
+
+[Arceaux voiture]
+	Nombres de places disponibles maximum: 230
+	Moyenne du nombres de places disponibles : 230.0
+	Pourcentage moyen du nombres de places disponibles : 100.0%
+	Écart type à la moyenne : 0.0
+
+[Polygone voiture]
+	Nombres de places disponibles maximum: 1911
+	Moyenne du nombres de places disponibles : 1448.0
+	Pourcentage moyen du nombres de places disponibles : 75.77%
+	Écart type à la moyenne : 0.0
+
+[Rue Jules Ferry - Gare Saint-Roch vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 6.33
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 1.5
+
+[Comédie vélo]
+	Nombres de vélos disponibles maximum: 24
+	Moyenne du nombres de vélos disponibles : 8.26
+	Pourcentage moyen du nombres de vélos disponibles : 33.33%
+	Écart type à la moyenne : 5.28
+
+[Esplanade vélo]
+	Nombres de vélos disponibles maximum: 32
+	Moyenne du nombres de vélos disponibles : 5.15
+	Pourcentage moyen du nombres de vélos disponibles : 15.62%
+	Écart type à la moyenne : 3.93
+
+[Hôtel de Ville vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 6.73
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 1.2
+
+[Corum vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 7.4
+	Pourcentage moyen du nombres de vélos disponibles : 58.33%
+	Écart type à la moyenne : 2.3
+
+[Place Albert 1er - St Charles vélo]
+	Nombres de vélos disponibles maximum: 31
+	Moyenne du nombres de vélos disponibles : 11.02
+	Pourcentage moyen du nombres de vélos disponibles : 35.48%
+	Écart type à la moyenne : 2.42
+
+[Foch vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 2.5
+	Pourcentage moyen du nombres de vélos disponibles : 25.0%
+	Écart type à la moyenne : 2.04
+
+[Halles Castellane vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 4.52
+	Pourcentage moyen du nombres de vélos disponibles : 33.33%
+	Écart type à la moyenne : 2.37
+
+[Observatoire vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 3.05
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 1.2
+
+[Rondelet vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 9.23
+	Pourcentage moyen du nombres de vélos disponibles : 56.25%
+	Écart type à la moyenne : 1.18
+
+[Plan Cabanes vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 4.07
+	Pourcentage moyen du nombres de vélos disponibles : 33.33%
+	Écart type à la moyenne : 2.72
+
+[Boutonnet vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 5.47
+	Pourcentage moyen du nombres de vélos disponibles : 41.67%
+	Écart type à la moyenne : 3.4
+
+[Emile Combes vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 6.22
+	Pourcentage moyen du nombres de vélos disponibles : 75.0%
+	Écart type à la moyenne : 0.44
+
+[Beaux-Arts vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 1.22
+	Pourcentage moyen du nombres de vélos disponibles : 12.5%
+	Écart type à la moyenne : 0.88
+
+[Les Aubes vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 1.94
+	Pourcentage moyen du nombres de vélos disponibles : 12.5%
+	Écart type à la moyenne : 1.34
+
+[Antigone centre vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 10.1
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 2.76
+
+[Médiathèque Emile Zola vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 8.68
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 2.41
+
+[Nombre d'Or vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 3.36
+	Pourcentage moyen du nombres de vélos disponibles : 18.75%
+	Écart type à la moyenne : 1.59
+
+[Louis Blanc vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 6.54
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 3.03
+
+[Gambetta vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 1.84
+	Pourcentage moyen du nombres de vélos disponibles : 12.5%
+	Écart type à la moyenne : 0.84
+
+[Port Marianne vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 7.05
+	Pourcentage moyen du nombres de vélos disponibles : 43.75%
+	Écart type à la moyenne : 5.05
+
+[Clemenceau vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 6.81
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 2.03
+
+[Les Arceaux vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 3.97
+	Pourcentage moyen du nombres de vélos disponibles : 18.75%
+	Écart type à la moyenne : 2.72
+
+[Cité Mion vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 4.82
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 0.38
+
+[Nouveau Saint-Roch vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 5.49
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 1.17
+
+[Renouvier vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 4.63
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 2.05
+
+[Odysseum vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 2.65
+	Pourcentage moyen du nombres de vélos disponibles : 25.0%
+	Écart type à la moyenne : 0.48
+
+[Saint-Denis vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 5.47
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 1.27
+
+[Richter vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 7.43
+	Pourcentage moyen du nombres de vélos disponibles : 43.75%
+	Écart type à la moyenne : 3.37
+
+[Charles Flahault vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 5.61
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 1.69
+
+[Voltaire vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 2.04
+	Pourcentage moyen du nombres de vélos disponibles : 25.0%
+	Écart type à la moyenne : 1.17
+
+[Prés d'Arènes vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 4.38
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 0.96
+
+[Garcia Lorca vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 3.83
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 1.67
+
+[Vert Bois vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 0.0
+	Pourcentage moyen du nombres de vélos disponibles : 0.0%
+	Écart type à la moyenne : 0.0
+
+[Malbosc vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 1.03
+	Pourcentage moyen du nombres de vélos disponibles : 12.5%
+	Écart type à la moyenne : 1.75
+
+[Occitanie vélo]
+	Nombres de vélos disponibles maximum: 32
+	Moyenne du nombres de vélos disponibles : 8.03
+	Pourcentage moyen du nombres de vélos disponibles : 25.0%
+	Écart type à la moyenne : 3.13
+
+[FacdesSciences vélo]
+	Nombres de vélos disponibles maximum: 24
+	Moyenne du nombres de vélos disponibles : 8.09
+	Pourcentage moyen du nombres de vélos disponibles : 33.33%
+	Écart type à la moyenne : 5.04
+
+[Fac de Lettres vélo]
+	Nombres de vélos disponibles maximum: 16
+	Moyenne du nombres de vélos disponibles : 1.38
+	Pourcentage moyen du nombres de vélos disponibles : 6.25%
+	Écart type à la moyenne : 1.41
+
+[Aiguelongue vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 6.82
+	Pourcentage moyen du nombres de vélos disponibles : 75.0%
+	Écart type à la moyenne : 0.83
+
+[Jeu de Mail des Abbés vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 5.46
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 1.35
+
+[Euromédecine vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 2.15
+	Pourcentage moyen du nombres de vélos disponibles : 25.0%
+	Écart type à la moyenne : 1.19
+
+[Marie Caizergues vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 2.37
+	Pourcentage moyen du nombres de vélos disponibles : 25.0%
+	Écart type à la moyenne : 1.09
+
+[Sabines vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 3.72
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 0.86
+
+[Celleneuve vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 3.38
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 0.79
+
+[Jardin de la Lironde vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 4.21
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 0.65
+
+[Père Soulas vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 4.7
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 1.99
+
+[Place Viala vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 3.99
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 1.55
+
+[Hôtel du Département vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 1.5
+	Pourcentage moyen du nombres de vélos disponibles : 12.5%
+	Écart type à la moyenne : 1.25
+
+[Tonnelles vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 5.16
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 1.87
+
+[Parvis Jules Ferry - Gare Saint-Roch vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 5.67
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 1.54
+
+[Pont de Lattes - Gare Saint-Roch vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 1.58
+	Pourcentage moyen du nombres de vélos disponibles : 8.33%
+	Écart type à la moyenne : 1.12
+
+[Deux Ponts - Gare Saint-Roch vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 3.69
+	Pourcentage moyen du nombres de vélos disponibles : 37.5%
+	Écart type à la moyenne : 0.62
+
+[Providence - Ovalie vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 1.48
+	Pourcentage moyen du nombres de vélos disponibles : 12.5%
+	Écart type à la moyenne : 0.74
+
+[Pérols Etang de l'Or vélo]
+	Nombres de vélos disponibles maximum: 68
+	Moyenne du nombres de vélos disponibles : 29.45
+	Pourcentage moyen du nombres de vélos disponibles : 42.65%
+	Écart type à la moyenne : 9.8
+
+[Albert 1er - Cathédrale vélo]
+	Nombres de vélos disponibles maximum: 12
+	Moyenne du nombres de vélos disponibles : 3.18
+	Pourcentage moyen du nombres de vélos disponibles : 25.0%
+	Écart type à la moyenne : 2.26
+
+[Saint-Guilhem - Courreau vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 4.54
+	Pourcentage moyen du nombres de vélos disponibles : 50.0%
+	Écart type à la moyenne : 1.9
+
+[Sud De France vélo]
+	Nombres de vélos disponibles maximum: 8
+	Moyenne du nombres de vélos disponibles : 5.28
+	Pourcentage moyen du nombres de vélos disponibles : 62.5%
+	Écart type à la moyenne : 0.45
+

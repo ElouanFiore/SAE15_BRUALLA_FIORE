@@ -42,12 +42,8 @@ def recup():
 	apivelo.processXML(champs_velo.keys(), id=id_velo.keys(), timecap=temps)
 	apivelo.saveCSV(path="./databrutes")
 
-if input(f"Voulez vous lancer un récupération toutes les {periode} minutes pour {longueur} minutes [Y=oui] ? ").lower() == "y":
-	apivoiture.runFor(longueur, periode, recup)
-
-"""
 def compte_rendu_velo(n, t, m, p, s):
-	with open("compte_rendu.txt", "a") as f:
+	with open("compte_rendu.txt", "a", encoding="utf8") as f:
 		f.write(f"[{n}]\n")
 		f.write(f"	Nombres de vélos disponibles maximum: {t}\n")
 		f.write(f"	Moyenne du nombres de vélos disponibles : {m}\n")
@@ -57,7 +53,7 @@ def compte_rendu_velo(n, t, m, p, s):
 		f.close()
 
 def compte_rendu_voiture(n, t, m, p, s):
-	with open("compte_rendu.txt", "a") as f:
+	with open("compte_rendu.txt", "a", encoding="utf8") as f:
 		f.write(f"[{n}]\n")
 		f.write(f"	Nombres de places disponibles maximum: {t}\n")
 		f.write(f"	Moyenne du nombres de places disponibles : {m}\n")
@@ -66,38 +62,38 @@ def compte_rendu_voiture(n, t, m, p, s):
 		f.write("\n")
 		f.close()
 
-recupvelo  = CSV(id_velo.keys(), path="./databrutes")
+if input(f"Voulez vous lancer un récupération toutes les {periode} minutes pour {longueur} minutes [Y=oui] ? ").lower() == "y":
+	apivoiture.runFor(longueur, periode, recup)
+
 recupvoiture = CSV(endpoints_voiture.keys(), path="./databrutes")
+recupvelo = CSV(id_velo.keys(), path="./databrutes")
+datavoiture = recupvoiture.getFromList(endpoints_voiture.keys()) 
+datavelo = recupvelo.getFromList(id_velo.keys())
 
-code_park = list(endpoints_voiture.keys())[0]
-data_corum = recupvoiture.getOne(code_park)
-total =  data_corum["Total"][0]
-moyenne = stat.moyenne(data_corum["Free"])
-sigma = stat.ecart_type(data_corum["Free"])
-pourcent = stat.pourcentage(moyenne, total)
-compte_rendu_voiture(f"{endpoints_voiture[code_park]}", total, moyenne, pourcent, sigma)
+moyenne_libre = dict()
+for f in endpoints_voiture.keys():
+	moyenne_libre[f] = stat.moyenne(datavoiture[f]["Free"])
+for f in id_velo.keys():
+	moyenne_libre[f] = stat.moyenne(datavelo[f]["av"])
 
-data_velo = recupvelo.getFromList(id_velo.keys())
-for code, nom in id_velo.items():
-	total =  data_velo[code]["to"][0]
-	moyenne = stat.moyenne(data_velo[code]["av"])
-	sigma = stat.ecart_type(data_velo[code]["av"])
-	pourcent = stat.pourcentage(moyenne, total)
-	compte_rendu_velo(f"{nom}", total, moyenne, pourcent, sigma)
+pourcentage_libre = dict()
+for f in endpoints_voiture.keys():
+	pourcentage_libre[f] = stat.pourcentage(moyenne_libre[f], datavoiture[f]["Total"][0])
+for f in id_velo.keys():
+	pourcentage_libre[f] = stat.pourcentage(moyenne_libre[f], datavelo[f]["to"][0])
 
-for code, nom in id_velo.items():
-	co = stat.covar(data_corum["Free"], data_velo[code]["av"])
-	t = stat.ecart_type(data_corum["Free"]) * stat.ecart_type(data_velo[code]["av"])
-	with open("compte_rendu.txt", "a") as f:
-		f.write(f"[Covariance {endpoints_voiture[code_park]} / {nom}]\n")
-		f.write(f"	Covariance : {co}\n")
-		f.write(f"	Coefficient de corrélation : {round(co/t, 2)}\n")
-		f.write("\n")
-		f.close()
+ecart_type = dict()
+for f in endpoints_voiture.keys():
+	ecart_type[f] = stat.ecart_type(datavoiture[f]["Free"])
+for f in id_velo.keys():
+	ecart_type[f] = stat.ecart_type(datavelo[f]["fr"])
 
+for f, n in endpoints_voiture.items():
+	compte_rendu_voiture(n, int(datavoiture[f]["Total"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
+for f, n in id_velo.items():
+	compte_rendu_velo(n, int(datavelo[f]["to"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
 
-stat.datagnuplot(data_corum["CapTime"], data_corum["Free"], data_velo["003"]["av"], data_velo["005"]["av"])
-
+"""
 nom1 = endpoints_voiture[code_park]
 nom2 = id_velo["003"]
 nom3 = id_velo["005"]
