@@ -86,12 +86,21 @@ ecart_type = dict()
 for f in endpoints_voiture.keys():
 	ecart_type[f] = stat.ecart_type(datavoiture[f]["Free"])
 for f in id_velo.keys():
-	ecart_type[f] = stat.ecart_type(datavelo[f]["fr"])
+	ecart_type[f] = stat.ecart_type(datavelo[f]["av"])
 
 for f, n in endpoints_voiture.items():
 	compte_rendu_voiture(n, int(datavoiture[f]["Total"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
 for f, n in id_velo.items():
 	compte_rendu_velo(n, int(datavelo[f]["to"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
+
+indice_correlation = dict()
+for f in endpoints_voiture.keys():
+	indice_correlation[f] = dict()
+	for i in id_velo.keys():
+		if ecart_type[f] == 0 or ecart_type[i] == 0:
+			indice_correlation[f][i] = 0
+		else:
+			indice_correlation[f][i] = stat.covar(datavoiture[f]["Free"], datavelo[i]["av"]) / (ecart_type[f]*ecart_type[i])
 
 """
 nom1 = endpoints_voiture[code_park]
