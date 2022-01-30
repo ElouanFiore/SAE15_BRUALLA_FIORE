@@ -101,13 +101,13 @@ class API():
 			self.log(2, f"Saving {code}...")
 			line = ""
 			for data in contenu.values(): # Créé la ligne à écrire
-				line += f"{data};"
+				line += f"{data},"
 			
 			try:
 				fichier = open(f"{path}/{code}.csv", "r")
 				fichier.close()
 			except FileNotFoundError: #Créé les headers si le fichier n'existe pas
-				header = ";".join(["CapTime"] + self.field)
+				header = ",".join(["CapTime"] + self.field)
 				with open(f"{path}/{code}.csv", "w") as fichier:
 					fichier.write(f"{header}\n{line}\n")
 					fichier.close()
@@ -189,7 +189,7 @@ class CSV():
 			
 			self.data[code] = self.data[code].split("\n") #Sépare les lignes
 			for index, val in enumerate(self.data[code]):
-				self.data[code][index] = val.split(";") #Sépare les données
+				self.data[code][index] = val.split(",") #Sépare les données
 			
 			for index, field in enumerate(self.data[code][0]): #Parcour le fichier selon les headers
 				parsed[field] = []
@@ -215,7 +215,7 @@ class CSV():
 				
 				self.data[code] = self.data[code].split("\n")  #Sépare les lignes
 				for index, val in enumerate(self.data[code]):
-					self.data[code][index] = val.split(";") #Sépare les données
+					self.data[code][index] = val.split(",") #Sépare les données
 
 				for index, field in enumerate(self.data[code][0]): #Parcour le fichier selon les headers
 					listparsed[code][field] =  []
