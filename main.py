@@ -87,18 +87,53 @@ for f in endpoints_voiture.keys():
 for f in id_velo.keys():
 	pourcentage_libre[f] = stat.pourcentage(moyenne_libre[f], datavelo[f]["to"][0])
 
-#Calcul l'écart type à la moyenne de vélos/places libres
+#Calcul l'écart type à la moyenne des vélos/places libres
 ecart_type = dict()
 for f in endpoints_voiture.keys():
 	ecart_type[f] = stat.ecart_type(datavoiture[f]["Free"])
 for f in id_velo.keys():
 	ecart_type[f] = stat.ecart_type(datavelo[f]["av"])
 
+#Calcul le nombre de places/vélos libre sur tout les parkings par mesure
+velo_libre = []
+place_libre = []
+for i in range(int(longueur/periode)):
+	for f in endpoints_voiture.keys():
+		if i == len(place_libre):
+			place_libre.append(int(datavoiture[f]["Free"][i]))
+		else:
+			place_libre[i] += int(datavoiture[f]["Free"][i])
+	for f in id_velo.keys():
+		if i == len(velo_libre):
+			velo_libre.append(int(datavelo[f]["av"][i]))
+		else:
+			velo_libre[i] += int(datavelo[f]["av"][i])
+
+#Calcul la moyenne de vélos/places libres sur tout les parkings
+velo_libre_mo = stat.moyenne(velo_libre)
+place_libre_mo = stat.moyenne(place_libre)
+
+#Calcul l'écart type à la moyenne des vélos/places libres sur tout les parkings
+velo_libre_si = stat.ecart_type(velo_libre)
+place_libre_si = stat.ecart_type(place_libre)
+
+#Calcul le nombre de places/velos total disponible sur tout les parkings
+velo_total = 0
+place_total = 0
+for f in endpoints_voiture.keys():
+	place_total += int(datavoiture[f]["Total"][0])
+for f in id_velo.keys():
+	velo_total += int(datavelo[f]["to"][0])
+
 #Ecrit les valeurs trouvé dans le compte rendu
 for f, n in endpoints_voiture.items():
 	compte_rendu_voiture(n, int(datavoiture[f]["Total"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
 for f, n in id_velo.items():
 	compte_rendu_velo(n, int(datavelo[f]["to"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
+compte_rendu_voiture("Total places", place_total, place_libre_mo, stat.pourcentage(place_libre_mo, place_total), place_libre_si)
+compte_rendu_velo("Total vélos", velo_total, velo_libre_mo, stat.pourcentage(velo_libre_mo, velo_total), velo_libre_si)
+
+
 
 #Calcul l'indice de correlation entre chaques parking vélo et voiture
 indice_correlation = dict()

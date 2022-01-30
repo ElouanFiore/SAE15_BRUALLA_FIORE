@@ -484,3 +484,15 @@
 	Pourcentage moyen du nombres de vélos disponibles : 62.5%
 	Écart type à la moyenne : 0.45
 
+[Total places]
+	Nombres de places disponibles maximum: 12128
+	Moyenne du nombres de places disponibles : 6807.64
+	Pourcentage moyen du nombres de places disponibles : 56.13%
+	Écart type à la moyenne : 750.8
+
+[Total vélos]
+	Nombres de vélos disponibles maximum: 739
+	Moyenne du nombres de vélos disponibles : 294.65
+	Pourcentage moyen du nombres de vélos disponibles : 39.78%
+	Écart type à la moyenne : 14.99
+
