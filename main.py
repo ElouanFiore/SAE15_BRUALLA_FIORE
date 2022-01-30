@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from this import d
 from recuperer import API, CSV
 import statistiques as stat
 import time
@@ -114,19 +115,28 @@ with open("heatmap.dat", "w") as h:
 		h.write(f"{line}\n")
 	h.close()
 
-os.system("gnuplot heatmap.plt")
+os.system("gnuplot heatmap.plot")
 
-"""
-nom1 = endpoints_voiture[code_park]
-nom2 = id_velo["003"]
-nom3 = id_velo["005"]
+graph = [0, 0, 0]
+for f in endpoints_voiture.keys():
+	for i in id_velo.keys():
+		if graph[0] < indice_correlation[f][i]:
+			graph[0], graph[1], graph[2] = indice_correlation[f][i], f, i
 
-with open("conf.plot", "w") as f:
-	f.write("reset\nset title 'Vélos et places de parkings disponibles en fonction du temps'\n")
-	f.write("set xdata time\nset timefmt '%d/%m/%Y-%H:%M'\nset format x '%H:%M'\nset xlabel 'Heure de la journée du 24/01/2022 et 25/02/2022'\n")
+with open("graph.dat", "w") as f:
+	for i in range(len(datavoiture[graph[1]]["CapTime"])):
+		a = datavoiture[graph[1]]["CapTime"][i]
+		b = datavoiture[graph[1]]["Free"][i]
+		c = datavelo[graph[2]]["av"][i]
+		f.write(f"{a} {b} {c}\n")
+
+with open("graph.plot", "w") as f:
+	f.write(f"set title 'Vélos et places de parkings disponibles des parkings les plus corrélé ({graph[0]}) en fonction du temps'\n")
+	f.write("set xdata time\nset timefmt '%d/%m/%Y-%H:%M'\nset format x '%H:%M'\nset xlabel 'Heure de la journée du 27/01/2022 et 28/02/2022'\n")
 	f.write("set ylabel 'Place de parkings disponibles'\n")
 	f.write("set y2tics\nset y2range [2:17]\nset y2label 'Vélos disponibles'\n")
 	f.write("set terminal png size 2000,1000 enhanced\nset output 'graph.png'\n")
-	f.write(f"plot 'forgnuplot.dat' using 1:2 with lines title '{nom1}', 'forgnuplot.dat' using 1:3 with lines axes x1y2 title '{nom2}', 'forgnuplot.dat' using 1:4 with lines axes x1y2 title '{nom3}'\n")
+	f.write(f"plot 'graph.dat' using 1:2 with lines title '{endpoints_voiture[graph[1]]}', 'graph.dat' using 1:3 with lines axes x1y2 title '{id_velo[graph[2]]}'\n")
 	f.close()
-"""
+
+os.system("gnuplot graph.plot")
