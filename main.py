@@ -8,7 +8,7 @@ longueur = 24*60 #nombre de minute dans un jour
 periode = 5 #toutes les 5 minutes
 
 """
-Used to make the dict of velo ids 
+Utilisé pour récupéré les ids des parkings vélo
 re = requests.get("https://data.montpellier3m.fr/sites/default/files/ressources/TAM_MMM_VELOMAG.xml")
 tree = etree.fromstring(re.content)
 li = list(tree)[0]
@@ -32,6 +32,9 @@ apivoiture = API(url, log=2)
 apivelo = API(url, log=2)
 
 def recup():
+	"""
+	La récupération qui sera effectué
+	"""
 	temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
 
 	apivoiture.downloadEndpoints(endpoints_voiture.keys())
@@ -94,13 +97,24 @@ for f, n in id_velo.items():
 	compte_rendu_velo(n, int(datavelo[f]["to"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
 
 indice_correlation = dict()
-for f in endpoints_voiture.keys():
-	indice_correlation[f] = dict()
-	for i in id_velo.keys():
-		if ecart_type[f] == 0 or ecart_type[i] == 0:
-			indice_correlation[f][i] = 0
-		else:
-			indice_correlation[f][i] = stat.covar(datavoiture[f]["Free"], datavelo[i]["av"]) / (ecart_type[f]*ecart_type[i])
+with open("heatmap.dat", "w") as h:
+	header = ",".join(list(id_velo.keys()))
+	h.write(f",{header}\n")
+	for f in endpoints_voiture.keys():
+		indice_correlation[f] = dict()
+		row = f.replace("_", "\\\\_")
+		line = row
+		for i in id_velo.keys():
+			if ecart_type[f] == 0 or ecart_type[i] == 0:
+				indice_correlation[f][i] = 0
+				line += ",0"
+			else:
+				indice_correlation[f][i] = stat.covar(datavoiture[f]["Free"], datavelo[i]["av"]) / (ecart_type[f]*ecart_type[i])
+				line += f",{indice_correlation[f][i]}"
+		h.write(f"{line}\n")
+	h.close()
+
+os.system("gnuplot heatmap.plt")
 
 """
 nom1 = endpoints_voiture[code_park]
@@ -115,6 +129,4 @@ with open("conf.plot", "w") as f:
 	f.write("set terminal png size 2000,1000 enhanced\nset output 'graph.png'\n")
 	f.write(f"plot 'forgnuplot.dat' using 1:2 with lines title '{nom1}', 'forgnuplot.dat' using 1:3 with lines axes x1y2 title '{nom2}', 'forgnuplot.dat' using 1:4 with lines axes x1y2 title '{nom3}'\n")
 	f.close()
-
-os.system("gnuplot conf.plot")
 """

@@ -7,12 +7,18 @@ import requests
 import time
 
 class API():
+	"""
+	Permet de récupérer plusieurs données dans des fichiers sur internet
+	"""
 	def __init__(self, url, log=1):
 		self.url = url
 		self.loglevel = log
 		self.endpointsParse = {}
 
 	def downloadEndpoints(self, lst=[]):
+		"""
+		Télécharges les fichiers selon une liste et l'url qui lui à été donné
+		"""
 		error = 0
 		self.endpointsData = {}
 
@@ -30,22 +36,24 @@ class API():
 	
 
 	def processXML(self, field, id=[], timecap=0):
+		"""
+		Traite les fichier récupéré pour avoir les données selon une liste de champs spécifié
+		"""
 		self.field = list(field)
-		if timecap == 0:
+		if timecap == 0: #Gère lui même la marque de temps si elle n'est pas spécifié
 			now = time.localtime(time.time())
 			timecap = time.strftime("%d/%m/%Y-%H:%M", now)
 
-		if id == []:
+		if id == []: #Traite les champs par le tag des balises
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
-				try:
+				try: 
 					contenu = lxml.etree.fromstring(contenu)	
-				except lxml.etree.XMLSyntaxError:
+				except lxml.etree.XMLSyntaxError: #Permet de ne pas stopper le programme si doc vide
 					self.log(0, f"PARSING ERROR {code}")
 					if not code in self.endpointsParse.keys():
-						print("here", self.endpointsParse.keys(), code)
 						self.endpointsParse[code] = {"CapTime": timecap}
-					else:
+					else: # Réutilise les dernières données si elles existent
 						self.endpointsParse[code]["CapTime"] = timecap
 						print(self.endpointsParse)
 				
@@ -58,20 +66,20 @@ class API():
 							if i.tag == f:
 								self.endpointsParse[code][f] = i.text
 		
-		else:
+		else: #Traite les champs par l'id des balises
 			for code, contenu in self.endpointsData.items():
 				self.log(2, f"Converting {code}...")
-				try:
+				try: 
 					contenu = lxml.etree.fromstring(contenu)
-				except lxml.etree.XMLSyntaxError:
+				except lxml.etree.XMLSyntaxError: #Permet de ne pas stopper le programme si doc vide
 					self.log(0, f"PARSING ERROR {code}")
 					for i in id:
 						if not i in self.endpointsParse.keys():
 							self.endpointsParse[i] = {"CapTime": timecap}
-						else:
+						else: # Réutilise les dernières données si elles existent
 							self.endpointsParse[i]["CapTime"] = timecap
 				else:
-					contenu = list(contenu)[0]
+					contenu = list(contenu)[0] #Passe le premier élément qui est vide
 					for i in id:
 						self.log(2, f"Processing {i}...")
 						self.endpointsParse[i] = {}
@@ -86,16 +94,19 @@ class API():
 		self.log(1, f"####################################### End processing ########################################")
 
 	def saveCSV(self, path="."):
+		"""
+		Sauvegarde les données traité en format CSV
+		"""
 		for code, contenu in self.endpointsParse.items():
 			self.log(2, f"Saving {code}...")
 			line = ""
-			for data in contenu.values():
+			for data in contenu.values(): # Créé la ligne à écrire
 				line += f"{data};"
 			
 			try:
 				fichier = open(f"{path}/{code}.csv", "r")
 				fichier.close()
-			except FileNotFoundError:
+			except FileNotFoundError: #Créé les headers si le fichier n'existe pas
 				header = ";".join(["CapTime"] + self.field)
 				with open(f"{path}/{code}.csv", "w") as fichier:
 					fichier.write(f"{header}\n{line}\n")
@@ -108,12 +119,18 @@ class API():
 		self.log(1, "######################################### End saving ##########################################")
 	
 	def print(self):
+		"""
+		Fonction qui a surtout été utilisé pendant le développement
+		"""
 		for code, contenu in self.endpointsParse.items():
 			print(f"{code}")
 			for field, data in contenu.items():
 				print(f"	{field} : {data}")
 
 	def runFor(self, lenght, sleep, function):
+		"""
+		Fonction qui permet de programmer la longueur de la récupération et la fréquences des récupérations
+		"""
 		endTime = int(time.time()) + lenght*60
 		execute = 0
 		sleep *= 60
@@ -126,12 +143,18 @@ class API():
 			
 			if int(time.time()) < endTime:
 				self.log(1, f"#################################### Sleeping for {sleep/60} min #####################################")
-				execTime = int(time.time()) - execTime
+				execTime = int(time.time()) - execTime #Permet de connaître la longuer de l'éxécution pour la soustraire à la longueur du sleep
 				time.sleep(sleep - execTime)
 		
 		self.log(1, f"Executed {execute} time(s)")
 	
 	def log(self, level, message):
+		"""
+		Fonction de log avec 3 niveaux
+		0 rien sauf les erreurs
+		1 les erreurs et les grandes étapes (par défaut)
+		2 les erreurs et à quel endpoint le programme en est
+		"""
 		now = time.localtime(time.time())
 		message = time.strftime("%d/%m/%Y %H:%M:%S ; ", now) + message
 		if self.loglevel >= level:
@@ -142,6 +165,9 @@ class API():
 
 class CSV():
 	def __init__(self, name, path="."):
+		"""
+		Classe qui sert de parseur CSV fait maison
+		"""
 		self.name = name
 		self.data = {}
 		self.dataparsed = {}
@@ -152,69 +178,51 @@ class CSV():
 				f.close()
 	
 	def getOne(self, code):
-		if code in self.dataparsed.keys():
+		"""
+		Retourne les données d'un fichier dans un dictionnaire contenant des listes selon les headers
+		""" 
+		if code in self.dataparsed.keys(): #Cherhce si le fichier à déjà été parsé
 			return self.dataparsed[code]
 		
 		else:
 			parsed = {}
 			
-			self.data[code] = self.data[code].split("\n")
+			self.data[code] = self.data[code].split("\n") #Sépare les lignes
 			for index, val in enumerate(self.data[code]):
-				self.data[code][index] = val.split(";")
+				self.data[code][index] = val.split(";") #Sépare les données
 			
-			for index, field in enumerate(self.data[code][0]):
-				parsed[field] = []	
+			for index, field in enumerate(self.data[code][0]): #Parcour le fichier selon les headers
+				parsed[field] = []
 				
-				for line in range(1, len(self.data[code])-1):
+				for line in range(1, len(self.data[code])-1): #Passe le header et la dernière ligne vide
 					parsed[field].append(self.data[code][line][index])
 
-			self.dataparsed[code] = parsed
+			self.dataparsed[code] = parsed #Ajoute le fichier aux fichiers parsés
 			return parsed
 	
 	def getFromList(self, list):
+		"""
+		Retourne les données de plusieurs fichiers dans un dictionnaire contenant les fichiers sous forme de dictionaires contenant des listes selon les headers
+		""" 
 		listparsed = {}
 		
 		for code in list:
-			if code in self.dataparsed.keys():
+			if code in self.dataparsed.keys(): #Cherhce si le fichier à déjà été parsé
 				listparsed[code] = self.dataparsed[code]
 			
 			else:
 				listparsed[code] = {}
 				
-				self.data[code] = self.data[code].split("\n")
+				self.data[code] = self.data[code].split("\n")  #Sépare les lignes
 				for index, val in enumerate(self.data[code]):
-					self.data[code][index] = val.split(";")
+					self.data[code][index] = val.split(";") #Sépare les données
 
-				for index, field in enumerate(self.data[code][0]):
+				for index, field in enumerate(self.data[code][0]): #Parcour le fichier selon les headers
 					listparsed[code][field] =  []
 					
-					for line in range(1, len(self.data[code])-1):
+					for line in range(1, len(self.data[code])-1): #Passe le header et la dernière ligne vide
 						listparsed[code][field].append(self.data[code][line][index])
 
-				self.dataparsed[code] = listparsed[code]
+				self.dataparsed[code] = listparsed[code] #Ajoute le fichier aux fichiers parsés
 
 		return listparsed
-
-if __name__ == "__main__":
-	url = "https://data.montpellier3m.fr/sites/default/files/ressources/{}.xml"
-	
-	endpointsvoi = {'FR_MTP_ANTI': 'Antigone', 'FR_MTP_COME': 'Comédie', 'FR_MTP_CORU': 'Corum', 'FR_MTP_EURO': 'Europa', 'FR_MTP_FOCH': 'Foch', 'FR_MTP_GAMB': 'Gambetta', 'FR_MTP_GARE': 'Gare', 'FR_MTP_TRIA': 'Triangle', 'FR_MTP_ARCT': 'Arc de Triomphe', 'FR_MTP_PITO': 'Pitot', 'FR_MTP_CIRC': 'Circe', 'FR_MTP_SABI': 'Sabines', 'FR_MTP_GARC': 'Garcia Lorca', 'FR_MTP_SABL': 'Sablassou', 'FR_MTP_MOSS': 'Mosson', 'FR_STJ_SJLC': 'Saint Jean le Sec', 'FR_MTP_MEDC': 'Euromédecine', 'FR_MTP_OCCI': 'Occitanie', 'FR_CAS_VICA': 'Vicarello', 'FR_MTP_GA109': 'Gaumont EST', 'FR_MTP_GA250': 'Gaumont OUEST', 'FR_CAS_CDGA': 'Charles de Gaulle', 'FR_MTP_ARCE': 'Arceaux', 'FR_MTP_POLY': 'Polygone'}
-	champsvoi = {"DateTime": "Heure d'actualisation", "Name": "Nom du parking", "Status": "Status", "Free": "Place(s) libre(s)", "Total": "Nombre de places"}
-	
-	endpointsve = {"TAM_MMM_VELOMAG": "velo"}
-	idve = {"003": "Esplanade", "005": "Corum"}
-	champsve = {"av": "Places occupées", "fr": "Places libres", "to": "Places totales"}
-	
-	velo = API(url, log=2)
-	voiture = API(url, log=2)
-
-	def recup():
-		temps = time.strftime("%d/%m/%Y-%H:%M", time.localtime(time.time()))
-		
-		voiture.downloadEndpoints(endpointsvoi.keys())
-		voiture.processXML(champsvoi.keys(), timecap=temps)
-		
-		velo.downloadEndpoints(endpointsve.keys())
-		velo.processXML(champsve.keys(), id=idve.keys(), timecap=temps)
-
-	velo.runFor(2, 1, recup)
