@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from this import d
 from recuperer import API, CSV
 import statistiques as stat
 import time
@@ -74,39 +73,43 @@ recupvelo = CSV(id_velo.keys(), path="./databrutes")
 datavoiture = recupvoiture.getFromList(endpoints_voiture.keys()) 
 datavelo = recupvelo.getFromList(id_velo.keys())
 
+#Calcul la moyenne de vélos/places libres
 moyenne_libre = dict()
 for f in endpoints_voiture.keys():
 	moyenne_libre[f] = stat.moyenne(datavoiture[f]["Free"])
 for f in id_velo.keys():
 	moyenne_libre[f] = stat.moyenne(datavelo[f]["av"])
 
+#Calcul le pourcentage moyen de vélos/places libres
 pourcentage_libre = dict()
 for f in endpoints_voiture.keys():
 	pourcentage_libre[f] = stat.pourcentage(moyenne_libre[f], datavoiture[f]["Total"][0])
 for f in id_velo.keys():
 	pourcentage_libre[f] = stat.pourcentage(moyenne_libre[f], datavelo[f]["to"][0])
 
+#Calcul l'écart type à la moyenne de vélos/places libres
 ecart_type = dict()
 for f in endpoints_voiture.keys():
 	ecart_type[f] = stat.ecart_type(datavoiture[f]["Free"])
 for f in id_velo.keys():
 	ecart_type[f] = stat.ecart_type(datavelo[f]["av"])
 
+#Ecrit les valeurs trouvé dans le compte rendu
 for f, n in endpoints_voiture.items():
 	compte_rendu_voiture(n, int(datavoiture[f]["Total"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
 for f, n in id_velo.items():
 	compte_rendu_velo(n, int(datavelo[f]["to"][0]), moyenne_libre[f], pourcentage_libre[f], ecart_type[f])
 
+#Calcul l'indice de correlation entre chaques parking vélo et voiture
 indice_correlation = dict()
-with open("heatmap.dat", "w") as h:
+with open("heatmap.dat", "w", encoding="utf8") as h:
 	header = ",".join(list(id_velo.keys()))
 	h.write(f",{header}\n")
 	for f in endpoints_voiture.keys():
 		indice_correlation[f] = dict()
-		row = f.replace("_", "\\\\_")
-		line = row
+		line = f.replace("_", "\\\\_") #Permet de ne pas compter "_" comme un caractère qui a un effet sur le texte 
 		for i in id_velo.keys():
-			if ecart_type[f] == 0 or ecart_type[i] == 0:
+			if ecart_type[f] == 0 or ecart_type[i] == 0: #Pour eviter les erreurs de division par 0
 				indice_correlation[f][i] = 0
 				line += ",0"
 			else:
@@ -117,20 +120,22 @@ with open("heatmap.dat", "w") as h:
 
 os.system("gnuplot heatmap.plot")
 
+#Trouve le plus fort indice de corrélation
 graph = [0, 0, 0]
 for f in endpoints_voiture.keys():
 	for i in id_velo.keys():
 		if graph[0] < indice_correlation[f][i]:
 			graph[0], graph[1], graph[2] = indice_correlation[f][i], f, i
 
-with open("graph.dat", "w") as f:
+#Créé le graphique des 2 parkings avec le plus fort indice de corrélation
+with open("graph.dat", "w", encoding="utf8") as f:
 	for i in range(len(datavoiture[graph[1]]["CapTime"])):
 		a = datavoiture[graph[1]]["CapTime"][i]
 		b = datavoiture[graph[1]]["Free"][i]
 		c = datavelo[graph[2]]["av"][i]
 		f.write(f"{a} {b} {c}\n")
 
-with open("graph.plot", "w") as f:
+with open("graph.plot", "w", encoding="utf8") as f:
 	f.write(f"set title 'Vélos et places de parkings disponibles des parkings les plus corrélé ({graph[0]}) en fonction du temps'\n")
 	f.write("set xdata time\nset timefmt '%d/%m/%Y-%H:%M'\nset format x '%H:%M'\nset xlabel 'Heure de la journée du 27/01/2022 et 28/02/2022'\n")
 	f.write("set ylabel 'Place de parkings disponibles'\n")
