@@ -126,11 +126,12 @@ for f in endpoints_voiture.keys():
 	for i in id_velo.keys():
 		if graph[0] < indice_correlation[f][i]:
 			graph[0], graph[1], graph[2] = indice_correlation[f][i], f, i
+graph[0] = round(graph[0], 4)
 
 #Créé le graphique des 2 parkings avec le plus fort indice de corrélation
 with open("graph.dat", "w", encoding="utf8") as f:
-	for i in range(len(datavoiture[graph[1]]["CapTime"])):
-		a = datavoiture[graph[1]]["CapTime"][i]
+	for i, val in enumerate(datavoiture[graph[1]]["CapTime"]):
+		a = val
 		b = datavoiture[graph[1]]["Free"][i]
 		c = datavelo[graph[2]]["av"][i]
 		f.write(f"{a} {b} {c}\n")
