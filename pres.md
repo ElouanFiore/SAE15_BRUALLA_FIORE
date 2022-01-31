@@ -18,7 +18,7 @@
 Toutes les données brutes sont disponibles dans le repertoires databrutes au format CSV.
 
 ### **Données traités :**
-Les données les plus interessantes sont dans le fichier [compte_rendu.txt](./compte_rendu.txt), il contient pour chaque parkings :
+Les données les plus interessantes sont dans le fichier [compte_rendu.txt](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/compte_rendu.txt), il contient pour chaque parkings :
 1. Le nombre de places/vélos disponibles au maximum
 2. La moyenne de places/vélos libres
 3. Le pourcentage moyen de places/vélos libres sur le temps de mesure.
@@ -44,11 +44,11 @@ Rue Jules Ferry - Gare Saint-Roch vélo|Comédie vélo|Esplanade vélo|Hôtel de
 Richter vélo|Charles Flahault vélo|Voltaire vélo|Prés d'Arènes vélo|Garcia Lorca vélo|Vert Bois vélo|Malbosc vélo|Occitanie vélo|FacdesSciences vélo|Fac de Lettres vélo|Aiguelongue vélo|Jeu de Mail des Abbés vélo|Euromédecine vélo|Marie Caizergues vélo|Sabines vélo|Celleneuve vélo|Jardin de la Lironde vélo|Père Soulas vélo|Place Viala vélo|Hôtel du Département vélo|Tonnelles vélo|Parvis Jules Ferry - Gare Saint-Roch vélo|Pont de Lattes - Gare Saint-Roch vélo|Deux Ponts - Gare Saint-Roch vélo|Providence - Ovalie vélo|Pérols Etang de l'Or vélo|Albert 1er - Cathédrale vélo|Saint-Guilhem - Courreau vélo|Sud De France vélo
 
 ### **Carte de température**
-![](heatmap.png)
-Ce graphique représente l'indice de corrélation pour chaque parkings voitures par rapport aux parkings vélos. On peut constater que certains parking n'ont aucune corrélation, comme FR_MTP_POLY, bien qu'il soit ouvert les données n'ont pas bougé lors de la capture [(données)](databrutes/FR_MTP_POLY.csv), les capteurs de présence pour ce parking sont donc considérés comme déféctueux. C'est la même chose pour [FR_MTP_ARCE](databrutes/FR_MTP_ARCE.csv), [FR_MTP_CIRC](databrutes/FR_MTP_CIRC.csv) et le parking vélos [034](databrutes/034.csv).
+![](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/heatmap.png)
+Ce graphique représente l'indice de corrélation pour chaque parkings voitures par rapport aux parkings vélos. On peut constater que certains parking n'ont aucune corrélation, comme FR_MTP_POLY, bien qu'il soit ouvert les données n'ont pas bougé lors de la capture [(données)](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_POLY.csv), les capteurs de présence pour ce parking sont donc considérés comme déféctueux. C'est la même chose pour [FR_MTP_ARCE](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_ARCE.csv), [FR_MTP_CIRC](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_CIRC.csv) et le parking vélos [034](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/034.csv).
 
 ### **Les plus corrélé**
-![](graph.png)
+![](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/graph.png)
 
 Ce graphique montre le parking voiture Mosson et le parking vélo Renouvier, ils ont le facteur de corrélation le plus proche de 1. Ces parkings ne sont pas proches géographiquement, ça peut donc être du à une coincidence. Mais le parking Mosson se trouve en périphérie de Montpellier, on peut donc imaginer que s'il y a une ligne de tram présente les usagés l'emprunte pour se rendre au parking Renouvier situé plus à l'interieur Montpellier pour prendre un vélo.
 
