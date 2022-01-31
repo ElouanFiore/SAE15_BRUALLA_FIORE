@@ -15,7 +15,7 @@
 
 ## **Emplacement**
 ### **Données brutes :**
-Toutes les données brutes sont disponibles dans le repertoires databrutes au format CSV.
+Toutes les données brutes sont disponibles dans le repertoire databrutes au format CSV.
 
 ### **Données traités :**
 Les données les plus interessantes sont dans le fichier [compte_rendu.txt](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/compte_rendu.txt), il contient pour chaque parkings :
@@ -24,14 +24,14 @@ Les données les plus interessantes sont dans le fichier [compte_rendu.txt](http
 3. Le pourcentage moyen de places/vélos libres sur le temps de mesure.
 4. L'écart type à cette moyenne 
 
-Les mêmes données pour tout les parkings voitures réuni et tout les parkings vélos réuni sont à la fin du compte rendu.
+Les mêmes données pour tout les parkings voitures réunis et tout les parkings vélos réunis sont à la fin du compte rendu.
 
 ## **Analyse**
 ### **Définitions**
-#### Facteur de corrélation
-Peut démontrer une corrélation entre deux courbes, si elles évoluent dans le même sens le facteur se rapproche de 1, si elles évoluent dans des sens contraire le facteur se rapproche de -1 et si elle n'ont rien à voir le facteur se rapproche de 0. C'est un outils qui permet un analyse, il ne démontre en aucun cas une corrélation à 100%.
+#### Facteur de corrélation :
+Peut démontrer une corrélation entre deux courbes, si elles évoluent dans le même sens le facteur se rapproche de 1, si elles évoluent dans des sens contraire le facteur se rapproche de -1 et si elles n'ont rien à voir le facteur se rapproche de 0. C'est un outil qui permet un analyse, il ne démontre en aucun cas une corrélation à 100%.
 
-#### Ecart Type 
+#### Écart Type :
 Complémentaire à la moyenne il permet de savoir comment les valeurs sont dispersé autour de cette moyenne. Une courbe avec un écart type élevé aura plus de fluctuations autour de la moyenne qu'une courbe avec la même moyenne mais un écart type plus petit.
 
 ### **Correspondances parkings vélos**
@@ -45,12 +45,12 @@ Richter vélo|Charles Flahault vélo|Voltaire vélo|Prés d'Arènes vélo|Garcia
 
 ### **Carte de température**
 ![](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/heatmap.png)
-Ce graphique représente l'indice de corrélation pour chaque parkings voitures par rapport aux parkings vélos. On peut constater que certains parking n'ont aucune corrélation, comme FR_MTP_POLY, bien qu'il soit ouvert les données n'ont pas bougé lors de la capture [(données)](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_POLY.csv), les capteurs de présence pour ce parking sont donc considérés comme déféctueux. C'est la même chose pour [FR_MTP_ARCE](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_ARCE.csv), [FR_MTP_CIRC](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_CIRC.csv) et le parking vélos [034](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/034.csv).
+Ce graphique représente l'indice de corrélation pour chaque parkings voitures par rapport aux parkings vélos. On peut constater que certains parkingis n'ont aucune corrélation, comme FR_MTP_POLY, bien qu'il soit ouvert les données n'ont pas bougés lors de la capture [(données)](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_POLY.csv), les capteurs de présence pour ce parking sont donc considérés comme déféctueux. C'est la même chose pour [FR_MTP_ARCE](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_ARCE.csv), [FR_MTP_CIRC](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_CIRC.csv) et le parking vélo [034](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/034.csv).
 
-### **Les plus corrélé**
+### **Les plus corrélés**
 ![](https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/graph.png)
 
-Ce graphique montre le parking voiture Mosson et le parking vélo Renouvier, ils ont le facteur de corrélation le plus proche de 1. Ces parkings ne sont pas proches géographiquement, ça peut donc être du à une coincidence. Mais le parking Mosson se trouve en périphérie de Montpellier, on peut donc imaginer que s'il y a une ligne de tram présente les usagés l'emprunte pour se rendre au parking Renouvier situé plus à l'interieur Montpellier pour prendre un vélo.
+Ce graphique montre le parking voiture Mosson et le parking vélo Renouvier, ils ont le facteur de corrélation le plus proche de 1. Ces parkings ne sont pas proches géographiquement, ça peut donc être dû à une coincidence. Mais le parking Mosson se trouve en périphérie de Montpellier, on peut donc imaginer que s'il y a une ligne de tramway présente les usagés l'emprunteront pour se rendre au parking Renouvier situé plus à l'interieur de Montpellier pour prendre un vélo.
 
 ### **Données totales**
-Avec le compte rendu du total des parkings nous pouvons voir que le nombre de places libres est suffisant avec plus de 50% de places libre en moyenne sur Montpellier. Et le service de vélos de Montpellier est efficace, le pourcentage de vélos diponibles en moyenne est de 36% mais c'est un chiffrre à surveiller car cet été le nombre de vélos emprunté devrait être plus important. Enfin la transition voiture/vélo est efficace, même en hiver on obtient des facteurs de corrélations intéressant sur les parkings voitures/vélos.
+Avec le compte rendu du total des parkings, nous pouvons voir que le nombre de places libres est suffisant avec plus de 50% de places libre en moyenne sur Montpellier. Et le service de vélos de Montpellier est efficace, le pourcentage de vélos diponibles est en moyenne de 36% mais c'est un chiffre à surveiller car cet été le nombre de vélos empruntés devrait être plus important. Enfin la transition voiture/vélo est efficace, même en hiver on obtient des facteurs de corrélations intéressant sur les parkings voitures/vélos.
