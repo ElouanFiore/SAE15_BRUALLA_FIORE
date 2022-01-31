@@ -174,7 +174,7 @@ with open("graph.dat", "w", encoding="utf8") as f:
 with open("graph.plot", "w", encoding="utf8") as f:
 	f.write(f"set title 'Vélos et places de parkings disponibles des parkings les plus corrélé ({graph[0]}) en fonction du temps'\n")
 	f.write("set xdata time\nset timefmt '%d/%m/%Y-%H:%M'\nset format x '%H:%M'\nset xlabel 'Heure de la journée du 27/01/2022 et 28/02/2022'\n")
-	f.write("set ylabel 'Place de parkings disponibles'\n")
+	f.write("set ylabel 'Places de parkings disponibles'\n")
 	f.write("set y2tics\nset y2range [2:17]\nset y2label 'Vélos disponibles'\n")
 	f.write("set terminal png size 2000,1000 enhanced\nset output 'graph.png'\n")
 	f.write(f"plot 'graph.dat' using 1:2 with lines title '{endpoints_voiture[graph[1]]}', 'graph.dat' using 1:3 with lines axes x1y2 title '{id_velo[graph[2]]}'\n")

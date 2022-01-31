@@ -3,7 +3,7 @@ set xdata time
 set timefmt '%d/%m/%Y-%H:%M'
 set format x '%H:%M'
 set xlabel 'Heure de la journée du 27/01/2022 et 28/02/2022'
-set ylabel 'Place de parkings disponibles'
+set ylabel 'Places de parkings disponibles'
 set y2tics
 set y2range [2:17]
 set y2label 'Vélos disponibles'
