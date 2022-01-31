@@ -49,13 +49,13 @@
 <ul>
 <li><a href="#d%C3%A9finitions"><strong>Définitions</strong></a>
 <ul>
-<li><a href="#facteur-de-corr%C3%A9lation">Facteur de corrélation</a></li>
-<li><a href="#ecart-type">Ecart Type</a></li>
+<li><a href="#facteur-de-corr%C3%A9lation-">Facteur de corrélation :</a></li>
+<li><a href="#%C3%A9cart-type-">Écart-type :</a></li>
 </ul>
 </li>
 <li><a href="#correspondances-parkings-v%C3%A9los"><strong>Correspondances parkings vélos</strong></a></li>
 <li><a href="#carte-de-temp%C3%A9rature"><strong>Carte de température</strong></a></li>
-<li><a href="#les-plus-corr%C3%A9l%C3%A9"><strong>Les plus corrélé</strong></a></li>
+<li><a href="#les-plus-corr%C3%A9l%C3%A9s"><strong>Les plus corrélés</strong></a></li>
 <li><a href="#donn%C3%A9es-totales"><strong>Données totales</strong></a></li>
 </ul>
 </li>
@@ -66,7 +66,7 @@
 <h3 id="données-brutes-"><strong>Données brutes :</strong></h3>
 <p>Toutes les données brutes sont disponibles dans le repertoire databrutes au format CSV.</p>
 <h3 id="données-traités-"><strong>Données traités :</strong></h3>
-<p>Les données les plus interessantes sont dans le fichier <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/compte_rendu.txt">compte_rendu.txt</a>, il contient pour chaque parkings :</p>
+<p>Les données les plus intéressantes sont dans le fichier <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/compte_rendu.txt">compte_rendu.txt</a>, il contient pour chaque parkings :</p>
 <ol>
 <li>Le nombre de places/vélos disponibles au maximum</li>
 <li>La moyenne de places/vélos libres</li>
@@ -78,7 +78,7 @@
 <h3 id="définitions"><strong>Définitions</strong></h3>
 <h4 id="facteur-de-corrélation-">Facteur de corrélation :</h4>
 <p>Peut démontrer une corrélation entre deux courbes, si elles évoluent dans le même sens le facteur se rapproche de 1, si elles évoluent dans des sens contraire le facteur se rapproche de -1 et si elles n'ont rien à voir le facteur se rapproche de 0. C'est un outil qui permet un analyse, il ne démontre en aucun cas une corrélation à 100%.</p>
-<h4 id="écart-type-">Écart Type :</h4>
+<h4 id="écart-type-">Écart-type :</h4>
 <p>Complémentaire à la moyenne il permet de savoir comment les valeurs sont dispersé autour de cette moyenne. Une courbe avec un écart type élevé aura plus de fluctuations autour de la moyenne qu'une courbe avec la même moyenne mais un écart type plus petit.</p>
 <h3 id="correspondances-parkings-vélos"><strong>Correspondances parkings vélos</strong></h3>
 <table>
@@ -217,7 +217,7 @@
 </table>
 <h3 id="carte-de-température"><strong>Carte de température</strong></h3>
 <p><img src="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/heatmap.png" alt="">
-Ce graphique représente l'indice de corrélation pour chaque parkings voitures par rapport aux parkings vélos. On peut constater que certains parkingis n'ont aucune corrélation, comme FR_MTP_POLY, bien qu'il soit ouvert les données n'ont pas bougés lors de la capture <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_POLY.csv">(données)</a>, les capteurs de présence pour ce parking sont donc considérés comme déféctueux. C'est la même chose pour <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_ARCE.csv">FR_MTP_ARCE</a>, <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_CIRC.csv">FR_MTP_CIRC</a> et le parking vélo <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/034.csv">034</a>.</p>
+Ce graphique représente l'indice de corrélation pour chaque parkings voitures par rapport aux parkings vélos. On peut constater que certains parkings n'ont aucune corrélation, comme FR_MTP_POLY, bien qu'il soit ouvert les données n'ont pas bougés lors de la capture <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_POLY.csv">(données)</a>, les capteurs de présence pour ce parking sont donc considérés comme déféctueux. C'est la même chose pour <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_ARCE.csv">FR_MTP_ARCE</a>, <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/FR_MTP_CIRC.csv">FR_MTP_CIRC</a> et le parking vélo <a href="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/databrutes/034.csv">034</a>.</p>
 <h3 id="les-plus-corrélés"><strong>Les plus corrélés</strong></h3>
 <p><img src="https://raw.githubusercontent.com/ElouanFiore/SAE15_BRUALLA_FIORE/main/graph.png" alt=""></p>
 <p>Ce graphique montre le parking voiture Mosson et le parking vélo Renouvier, ils ont le facteur de corrélation le plus proche de 1. Ces parkings ne sont pas proches géographiquement, ça peut donc être dû à une coincidence. Mais le parking Mosson se trouve en périphérie de Montpellier, on peut donc imaginer que s'il y a une ligne de tramway présente les usagés l'emprunteront pour se rendre au parking Renouvier situé plus à l'interieur de Montpellier pour prendre un vélo.</p>
